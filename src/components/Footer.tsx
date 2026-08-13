@@ -60,12 +60,12 @@ export function Footer() {
             </h4>
             <ul className="mt-4 space-y-2.5">
               {c.links.map((l) => (
-                <li key={l}>
+                <li key={l.label}>
                   <a
-                    href="#"
+                    href={l.href}
                     className="text-[14px] text-muted transition-colors hover:text-text"
                   >
-                    {l}
+                    {l.label}
                   </a>
                 </li>
               ))}

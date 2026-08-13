@@ -45,14 +45,30 @@ export const pricingIncludes = [
   'Windows, macOS & Linux app',
 ]
 
-export const footerCols: { title: string; links: string[] }[] = [
-  { title: 'Product', links: ['Download', 'Connectors', 'Skills', 'Guides', 'Pricing'] },
-  { title: 'Developer', links: ['LinkedIn', 'GitHub', 'Instagram'] },
-  { title: 'Legal', links: ['Terms', 'Privacy', 'Licenses'] },
+export const footerCols: { title: string; links: { label: string; href: string }[] }[] = [
+  {
+    title: 'Product',
+    links: [
+      { label: 'Download', href: '#download' },
+      { label: 'Connectors', href: '#connectors' },
+      { label: 'Skills', href: '#skills' },
+      { label: 'Guides', href: '#guides' },
+      { label: 'Pricing', href: '#pricing' },
+    ],
+  },
+  {
+    title: 'Developer',
+    links: [
+      { label: 'LinkedIn', href: '#' },
+      { label: 'GitHub', href: 'https://github.com/rezahanif' },
+      { label: 'Instagram', href: 'https://www.instagram.com/aiconnectfun' },
+    ],
+  },
+  { title: 'Legal', links: [{ label: 'Terms', href: '#' }, { label: 'Privacy', href: '#' }, { label: 'Licenses', href: '#' }] },
 ]
 
 export const mailtoHref =
-  'mailto:?subject=' +
+  'mailto:anjayrendy303@gmail.com?subject=' +
   encodeURIComponent('AiConnect connector request') +
   '&body=' +
   encodeURIComponent(
