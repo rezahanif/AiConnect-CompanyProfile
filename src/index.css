@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Mona Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --color-ink: #05060d;
+  --color-ink-2: #0a0c1a;
+  --color-surface: #0e1122;
+  --color-surface-2: #141833;
+  --color-hairline: rgba(148, 132, 255, 0.14);
+  --color-violet: #8b6bff;
+  --color-violet-bright: #a78bff;
+  --color-blue: #5b8cff;
+  --color-cyan: #6fe0ff;
+  --color-text: #eef0ff;
+  --color-muted: #9aa0c8;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-ink);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(139, 107, 255, 0.35);
+  color: #fff;
+}
+
+/* Hide scrollbars until scrolling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+*:hover {
+  scrollbar-color: rgba(139, 107, 255, 0.4) transparent;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+:hover::-webkit-scrollbar-thumb {
+  background: rgba(139, 107, 255, 0.35);
+  background-clip: content-box;
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(var(--r, 0deg)); }
+  50% { transform: translate3d(0, -18px, 0) rotate(var(--r, 0deg)); }
+}
+@keyframes breathe {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.08); }
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes dash-flow {
+  to { stroke-dashoffset: -24; }
+}
+
+.animate-float { animation: float-slow 7s ease-in-out infinite; }
+.animate-breathe { animation: breathe 9s ease-in-out infinite; }
+
+.reveal {
+  opacity: 0;
+}
+.reveal.in {
+  animation: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float, .animate-breathe { animation: none; }
+  .reveal { opacity: 1; animation: none; }
+  html { scroll-behavior: auto; }
+}
