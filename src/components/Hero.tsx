@@ -1,4 +1,5 @@
-import { DownloadButton, Eyebrow, FloatingObject, Reveal, WindowChrome } from './ui'
+import { DownloadPicker } from './Download'
+import { Eyebrow, FloatingObject, Reveal, WindowChrome } from './ui'
 
 function HeroVisual() {
   return (
@@ -185,14 +186,7 @@ export function Hero() {
           </p>
         </Reveal>
         <Reveal delay={240}>
-          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <DownloadButton os="macOS" variant="primary" />
-            <DownloadButton os="Windows" />
-            <DownloadButton os="Linux" />
-          </div>
-          <p className="mt-4 font-mono text-[12px] text-muted">
-            7-day free trial · Windows, macOS &amp; Linux
-          </p>
+          <DownloadPicker showVersion />
         </Reveal>
       </div>
 

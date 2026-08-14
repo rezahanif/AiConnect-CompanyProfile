@@ -1,6 +1,7 @@
 import { Footer, FinalCTA } from './components/Footer'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
+import { InstallInstructions } from './components/InstallInstructions'
 import { Pricing } from './components/Pricing'
 import {
   ConnectorGridVisual,
@@ -91,6 +92,8 @@ export default function App() {
         <Pricing />
 
         <FinalCTA />
+
+        <InstallInstructions />
       </main>
       <Footer />
     </div>

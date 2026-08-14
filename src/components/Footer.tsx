@@ -1,5 +1,6 @@
 import { footerCols } from '../data'
-import { BrandMark, DownloadButton, Reveal } from './ui'
+import { DownloadPicker } from './Download'
+import { BrandMark, Reveal } from './ui'
 
 export function FinalCTA() {
   return (
@@ -24,12 +25,7 @@ export function FinalCTA() {
           </p>
         </Reveal>
         <Reveal delay={180}>
-          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <DownloadButton os="macOS" variant="primary" />
-            <DownloadButton os="Windows" />
-            <DownloadButton os="Linux" />
-          </div>
-          <p className="mt-4 font-mono text-[12px] text-muted">7-day free trial</p>
+          <DownloadPicker />
         </Reveal>
       </div>
     </section>

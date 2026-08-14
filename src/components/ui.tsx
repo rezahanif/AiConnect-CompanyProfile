@@ -99,35 +99,99 @@ function IconLinux(props: { className?: string }) {
 
 export type OS = 'macOS' | 'Windows' | 'Linux'
 
+export type DownloadState = 'loading' | 'available' | 'unavailable' | 'error'
+
 export function DownloadButton({
   os,
   variant = 'ghost',
+  state = 'available',
+  release,
+  selected = false,
+  archLine,
+  onSelect,
 }: {
   os: OS
   variant?: 'primary' | 'ghost'
+  state?: DownloadState
+  release?: { version: string; downloadUrl?: string }
+  selected?: boolean
+  archLine?: string
+  onSelect?: () => void
 }) {
   const Icon = os === 'macOS' ? IconApple : os === 'Windows' ? IconWindows : IconLinux
   const base =
     'group inline-flex items-center gap-2.5 rounded-xl px-5 py-3 text-[15px] font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet/70'
-  if (variant === 'primary') {
+  const ariaLabel = `Download AiConnect for ${os}`
+
+  if (state === 'loading') {
+    return (
+      <span
+        aria-busy="true"
+        aria-label={`Checking releases for ${os}`}
+        className={`${base} border border-hairline bg-white/[0.02] text-muted opacity-70`}
+      >
+        <Icon className="h-[18px] w-[18px]" />
+        Checking for {os}…
+      </span>
+    )
+  }
+
+  if (state === 'unavailable' || state === 'error') {
+    return (
+      <span
+        aria-disabled="true"
+        className={`${base} cursor-default border border-hairline bg-white/[0.02] text-muted`}
+      >
+        <Icon className="h-[18px] w-[18px]" />
+        <span className="flex flex-col items-start leading-tight">
+          <span>{os} release currently unavailable</span>
+          <a
+            href="#install"
+            onClick={onSelect}
+            className="text-[12px] font-medium text-violet-bright underline underline-offset-2 hover:text-text"
+          >
+            View installation instructions
+          </a>
+        </span>
+      </span>
+    )
+  }
+
+  const primary = variant === 'primary' || selected
+  if (primary) {
     return (
       <a
-        href="#download"
+        href={release?.downloadUrl ?? '#download'}
+        aria-label={ariaLabel}
+        onClick={onSelect}
         className={`${base} text-white shadow-[0_10px_40px_-10px_rgba(59,130,246,0.35)] hover:-translate-y-0.5`}
         style={{ background: 'linear-gradient(135deg,#3b82f6,#3b82f6)' }}
       >
         <Icon className="h-[18px] w-[18px]" />
-        Download for {os}
+        <span className="flex flex-col items-start leading-tight">
+          <span>Download for {os}</span>
+          <span className="font-mono text-[10px] font-normal opacity-80">
+            {release?.version ? `v${release.version}` : ''}
+            {archLine ? ` · ${archLine}` : ''}
+          </span>
+        </span>
       </a>
     )
   }
   return (
     <a
-      href="#download"
+      href={release?.downloadUrl ?? '#download'}
+      aria-label={ariaLabel}
+      onClick={onSelect}
       className={`${base} border border-hairline bg-white/[0.03] text-text hover:-translate-y-0.5 hover:border-violet/50 hover:bg-white/[0.06]`}
     >
       <Icon className="h-[18px] w-[18px] text-muted transition-colors group-hover:text-violet-bright" />
-      Download for {os}
+      <span className="flex flex-col items-start leading-tight">
+        <span>Download for {os}</span>
+        <span className="font-mono text-[10px] font-normal text-muted">
+          {release?.version ? `v${release.version}` : ''}
+        </span>
+      </span>
     </a>
   )
 }
