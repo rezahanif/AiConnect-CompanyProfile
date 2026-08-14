@@ -51,22 +51,22 @@ export function BrandMark({ size = 30 }: { size?: number }) {
       <svg width={size} height={size} viewBox="0 0 32 32" fill="none" aria-hidden>
         <defs>
           <linearGradient id="bm" x1="4" y1="4" x2="28" y2="28">
-            <stop stopColor="#a78bff" />
-            <stop offset="1" stopColor="#5b8cff" />
+            <stop stopColor="#3b82f6" />
+            <stop offset="1" stopColor="#3b82f6" />
           </linearGradient>
         </defs>
         <path
           d="M16 3.5 27.2 10v12L16 28.5 4.8 22V10L16 3.5Z"
           stroke="url(#bm)"
           strokeWidth="1.6"
-          fill="rgba(139,107,255,0.10)"
+          fill="rgba(59,130,246,0.10)"
         />
         <circle cx="16" cy="16" r="3.1" fill="url(#bm)" />
         <path d="M16 12.9V8M16 19.1V24M12.9 16H8M19.1 16H24" stroke="url(#bm)" strokeWidth="1.6" strokeLinecap="round" />
-        <circle cx="16" cy="8" r="1.5" fill="#a78bff" />
-        <circle cx="16" cy="24" r="1.5" fill="#5b8cff" />
-        <circle cx="8" cy="16" r="1.5" fill="#6fe0ff" />
-        <circle cx="24" cy="16" r="1.5" fill="#a78bff" />
+        <circle cx="16" cy="8" r="1.5" fill="#3b82f6" />
+        <circle cx="16" cy="24" r="1.5" fill="#3b82f6" />
+        <circle cx="8" cy="16" r="1.5" fill="#3b82f6" />
+        <circle cx="24" cy="16" r="1.5" fill="#3b82f6" />
       </svg>
       <span className="text-[17px] font-extrabold tracking-tight text-text">
         Ai<span className="text-violet-bright">Connect</span>
@@ -113,8 +113,8 @@ export function DownloadButton({
     return (
       <a
         href="#download"
-        className={`${base} text-white shadow-[0_10px_40px_-10px_rgba(139,107,255,0.8)] hover:-translate-y-0.5`}
-        style={{ background: 'linear-gradient(135deg,#a78bff,#5b8cff)' }}
+        className={`${base} text-white shadow-[0_10px_40px_-10px_rgba(59,130,246,0.35)] hover:-translate-y-0.5`}
+        style={{ background: 'linear-gradient(135deg,#3b82f6,#3b82f6)' }}
       >
         <Icon className="h-[18px] w-[18px]" />
         Download for {os}
@@ -161,7 +161,7 @@ export function LogoChip({
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
     <span className="inline-flex items-center gap-2 rounded-full border border-hairline bg-white/[0.03] px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-violet-bright">
-      <span className="h-1.5 w-1.5 rounded-full bg-violet-bright shadow-[0_0_10px_2px_rgba(167,139,255,0.7)]" />
+      <span className="h-1.5 w-1.5 rounded-full bg-violet-bright shadow-[0_0_10px_2px_rgba(59,130,246,0.35)]" />
       {children}
     </span>
   )

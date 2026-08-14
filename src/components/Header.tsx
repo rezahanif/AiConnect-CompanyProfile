@@ -38,8 +38,8 @@ export function Header() {
         <div className="hidden items-center gap-3 md:flex">
           <a
             href="#download"
-            className="rounded-xl px-4 py-2 text-[14px] font-semibold text-white shadow-[0_8px_28px_-10px_rgba(139,107,255,0.9)] transition-transform hover:-translate-y-0.5"
-            style={{ background: 'linear-gradient(135deg,#a78bff,#5b8cff)' }}
+            className="rounded-xl px-4 py-2 text-[14px] font-semibold text-white shadow-[0_8px_28px_-10px_rgba(59,130,246,0.35)] transition-transform hover:-translate-y-0.5"
+            style={{ background: 'linear-gradient(135deg,#3b82f6,#3b82f6)' }}
           >
             Download
           </a>
@@ -74,7 +74,7 @@ export function Header() {
               href="#download"
               onClick={() => setOpen(false)}
               className="mt-2 rounded-xl px-4 py-3 text-center text-[15px] font-semibold text-white"
-              style={{ background: 'linear-gradient(135deg,#a78bff,#5b8cff)' }}
+              style={{ background: 'linear-gradient(135deg,#3b82f6,#3b82f6)' }}
             >
               Download
             </a>

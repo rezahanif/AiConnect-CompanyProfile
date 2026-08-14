@@ -8,13 +8,13 @@ function HeroVisual() {
         className="animate-breathe pointer-events-none absolute -inset-x-10 -top-24 bottom-10 -z-10 blur-3xl"
         style={{
           background:
-            'radial-gradient(60% 55% at 50% 40%, rgba(139,107,255,0.5), transparent 70%), radial-gradient(40% 40% at 75% 60%, rgba(91,140,255,0.35), transparent 70%)',
+            'radial-gradient(60% 55% at 50% 40%, rgba(59,130,246,0.35), transparent 70%), radial-gradient(40% 40% at 75% 60%, rgba(59,130,246,0.2), transparent 70%)',
         }}
       />
 
       <WindowChrome
         title="AiConnect — Desktop"
-        accent="#a78bff"
+        accent="#3b82f6"
         className="relative z-10"
       >
         <div className="grid grid-cols-1 gap-px bg-hairline md:grid-cols-[1.1fr_1fr]">
@@ -61,7 +61,7 @@ function HeroVisual() {
                 <defs>
                   <linearGradient id="floor" x1="0" y1="0" x2="1" y2="1">
                     <stop stopColor="#3a86ff" stopOpacity="0.35" />
-                    <stop offset="1" stopColor="#5b8cff" stopOpacity="0.05" />
+                    <stop offset="1" stopColor="#3b82f6" stopOpacity="0.05" />
                   </linearGradient>
                 </defs>
                 {[0, 1, 2, 3].map((i) => (
@@ -75,7 +75,7 @@ function HeroVisual() {
                   </g>
                 ))}
                 <path d="M60 90 L60 40 M150 60 L150 10 M210 82 L210 32 M120 112 L120 62" stroke="#6fa0ff" strokeWidth="0.8" opacity="0.5" />
-                <circle cx="150" cy="60" r="3" fill="#a78bff">
+                <circle cx="150" cy="60" r="3" fill="#3b82f6">
                   <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" />
                 </circle>
               </svg>
@@ -147,14 +147,14 @@ export function Hero() {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'radial-gradient(80% 60% at 50% -10%, rgba(139,107,255,0.28), transparent 60%), radial-gradient(50% 40% at 85% 20%, rgba(91,140,255,0.18), transparent 60%)',
+            'radial-gradient(80% 60% at 50% -10%, rgba(59,130,246,0.35), transparent 60%), radial-gradient(50% 40% at 85% 20%, rgba(59,130,246,0.2), transparent 60%)',
         }}
       />
       <div
         className="pointer-events-none absolute inset-0 -z-10 opacity-[0.5]"
         style={{
           backgroundImage:
-            'linear-gradient(rgba(139,107,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(139,107,255,0.06) 1px, transparent 1px)',
+            'linear-gradient(rgba(59,130,246,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.08) 1px, transparent 1px)',
           backgroundSize: '52px 52px',
           maskImage: 'radial-gradient(70% 60% at 50% 0%, #000, transparent 75%)',
           WebkitMaskImage: 'radial-gradient(70% 60% at 50% 0%, #000, transparent 75%)',
@@ -171,7 +171,7 @@ export function Hero() {
             <br />
             <span
               className="bg-clip-text text-transparent"
-              style={{ backgroundImage: 'linear-gradient(120deg,#a78bff 20%,#6fe0ff 90%)' }}
+              style={{ backgroundImage: 'linear-gradient(120deg,#3b82f6 20%,#3b82f6 90%)' }}
             >
               Continue without losing context.
             </span>

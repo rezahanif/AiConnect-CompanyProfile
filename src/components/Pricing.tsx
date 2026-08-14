@@ -27,10 +27,10 @@ export function Pricing() {
             className="animate-breathe pointer-events-none absolute -inset-6 -z-10 blur-3xl"
             style={{
               background:
-                'radial-gradient(60% 60% at 50% 40%, rgba(139,107,255,0.35), transparent 70%)',
+                'radial-gradient(60% 60% at 50% 40%, rgba(59,130,246,0.35), transparent 70%)',
             }}
           />
-          <div className="rounded-3xl border border-violet/30 bg-surface/80 p-8 shadow-[0_40px_100px_-40px_rgba(139,107,255,0.6)] backdrop-blur">
+          <div className="rounded-3xl border border-violet/30 bg-surface/80 p-8 shadow-[0_40px_100px_-40px_rgba(59,130,246,0.35)] backdrop-blur">
             <div className="flex items-center justify-between">
               <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-violet-bright">
                 AiConnect Pro
@@ -60,8 +60,8 @@ export function Pricing() {
 
             <a
               href="#download"
-              className="mt-8 block rounded-xl px-5 py-3.5 text-center text-[15px] font-semibold text-white shadow-[0_12px_40px_-12px_rgba(139,107,255,0.9)] transition-transform hover:-translate-y-0.5"
-              style={{ background: 'linear-gradient(135deg,#a78bff,#5b8cff)' }}
+              className="mt-8 block rounded-xl px-5 py-3.5 text-center text-[15px] font-semibold text-white shadow-[0_12px_40px_-12px_rgba(59,130,246,0.35)] transition-transform hover:-translate-y-0.5"
+              style={{ background: 'linear-gradient(135deg,#3b82f6,#3b82f6)' }}
             >
               Start free trial
             </a>

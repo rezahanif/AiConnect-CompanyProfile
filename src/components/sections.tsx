@@ -102,7 +102,7 @@ export function FeatureSection({
 
 function CrossModelVisual() {
   return (
-    <WindowChrome title="Progress Store — session handoff" accent="#6fe0ff">
+    <WindowChrome title="Progress Store — session handoff" accent="#3b82f6">
       <div className="p-5">
         <div className="grid grid-cols-[1fr_auto_1fr] items-stretch gap-3">
           {/* Claude */}
@@ -120,8 +120,8 @@ function CrossModelVisual() {
           {/* arrow / store */}
           <div className="flex flex-col items-center justify-center px-1">
             <svg viewBox="0 0 40 120" className="h-full w-9" aria-hidden>
-              <line x1="20" y1="0" x2="20" y2="120" stroke="#6fe0ff" strokeWidth="1.4" strokeDasharray="4 4" opacity="0.6" style={{ animation: 'dash-flow 1.2s linear infinite' }} />
-              <circle cx="20" cy="60" r="12" fill="rgba(111,224,255,0.14)" stroke="#6fe0ff" strokeWidth="1.2" />
+              <line x1="20" y1="0" x2="20" y2="120" stroke="#3b82f6" strokeWidth="1.4" strokeDasharray="4 4" opacity="0.6" style={{ animation: 'dash-flow 1.2s linear infinite' }} />
+              <circle cx="20" cy="60" r="12" fill="rgba(59,130,246,0.14)" stroke="#3b82f6" strokeWidth="1.2" />
             </svg>
             <span className="mt-1 font-mono text-[8px] text-cyan">store</span>
           </div>
@@ -172,7 +172,7 @@ function ModelRowVisual() {
       <div className="relative mt-5">
         <svg viewBox="0 0 400 24" className="h-6 w-full" preserveAspectRatio="none" aria-hidden>
           {[50, 150, 250, 350].map((x) => (
-            <line key={x} x1={x} y1="0" x2="200" y2="24" stroke="#8b6bff" strokeWidth="1" opacity="0.35" />
+            <line key={x} x1={x} y1="0" x2="200" y2="24" stroke="#3b82f6" strokeWidth="1" opacity="0.35" />
           ))}
         </svg>
       </div>
@@ -223,13 +223,13 @@ function ConnectorGridVisual() {
 
 function SkillShowcaseVisual() {
   return (
-    <WindowChrome title="AiConnect — Skills" accent="#a78bff">
+    <WindowChrome title="AiConnect — Skills" accent="#3b82f6">
       <div className="relative p-5">
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.4]"
           style={{
             backgroundImage:
-              'radial-gradient(circle, rgba(139,107,255,0.12) 1px, transparent 1.4px)',
+              'radial-gradient(circle, rgba(59,130,246,0.12) 1px, transparent 1.4px)',
             backgroundSize: '22px 22px',
           }}
         />
@@ -262,7 +262,7 @@ function SkillShowcaseVisual() {
 
 function GuideShowcaseVisual() {
   return (
-    <WindowChrome title="Connector guide — Revit" accent="#6fe0ff">
+    <WindowChrome title="Connector guide — Revit" accent="#3b82f6">
       <div className="grid grid-cols-[130px_1fr]">
         <div className="border-r border-hairline bg-white/[0.02] p-3">
           {guideSteps.map((g, i) => (
@@ -320,7 +320,7 @@ export function ValueDiagram() {
   )
   return (
     <div className="mx-auto mt-14 max-w-2xl text-center">
-      <div className="inline-block"><Node label="PROJECT" tint="#a78bff" /></div>
+      <div className="inline-block"><Node label="PROJECT" tint="#3b82f6" /></div>
       <Connector />
       <div className="flex flex-wrap items-center justify-center gap-3">
         {models.slice(0, 3).map((m) => (
@@ -338,7 +338,7 @@ export function ValueDiagram() {
         <Node label="Excel" />
       </div>
       <Connector />
-      <div className="inline-block"><Node label="Progress" tint="#6fe0ff" /></div>
+      <div className="inline-block"><Node label="Progress" tint="#3b82f6" /></div>
     </div>
   )
 }

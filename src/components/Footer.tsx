@@ -8,7 +8,7 @@ export function FinalCTA() {
         className="animate-breathe pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'radial-gradient(55% 60% at 50% 50%, rgba(139,107,255,0.28), transparent 65%), radial-gradient(40% 50% at 70% 40%, rgba(111,224,255,0.14), transparent 65%)',
+            'radial-gradient(55% 60% at 50% 50%, rgba(59,130,246,0.35), transparent 65%), radial-gradient(40% 50% at 70% 40%, rgba(59,130,246,0.18), transparent 65%)',
         }}
       />
       <div className="mx-auto max-w-3xl text-center">
