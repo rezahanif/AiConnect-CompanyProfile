@@ -15,7 +15,7 @@ export function Pricing() {
         </Reveal>
         <Reveal delay={140}>
           <p className="mx-auto mt-5 max-w-xl text-[17px] leading-relaxed text-muted">
-            Everything AiConnect offers, for one flat price. Start with a 7-day
+            Everything AiConnect offers, for one flat price. Start with a 3 days
             free trial.
           </p>
         </Reveal>
@@ -36,7 +36,7 @@ export function Pricing() {
                 AiConnect Pro
               </span>
               <span className="rounded-full bg-violet/15 px-3 py-1 font-mono text-[10px] text-violet-bright">
-                7-day free trial
+                3 days trial
               </span>
             </div>
             <div className="mt-6 flex items-end gap-1.5">

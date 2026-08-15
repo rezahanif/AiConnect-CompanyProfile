@@ -118,12 +118,12 @@ export function DownloadPicker({ showVersion = false }: { showVersion?: boolean 
         <p className="mt-4 font-mono text-[12px] text-muted">
           Latest version · {version}
           {showVersion && <span className="mx-2 text-hairline">|</span>}
-          {showVersion && '7-day free trial · Windows, macOS & Linux'}
+          {showVersion && '3 days trial · Windows, macOS & Linux'}
         </p>
       )}
       {!version && (
         <p className="mt-4 font-mono text-[12px] text-muted">
-          7-day free trial · Windows, macOS &amp; Linux
+          3 days trial · Windows, macOS &amp; Linux
         </p>
       )}
     </div>
