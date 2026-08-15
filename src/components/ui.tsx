@@ -135,7 +135,7 @@ export function DownloadButton({
       >
         <Icon className="h-6 w-6 shrink-0" />
         <span className="flex flex-col items-start leading-tight">
-          <span>{os} release currently unavailable</span>
+          <span className="whitespace-nowrap">{os} release currently unavailable</span>
           <motion.span
             initial={false}
             animate={hover ? 'show' : 'hide'}
@@ -150,7 +150,7 @@ export function DownloadButton({
               href="#install"
               onClick={onSelect}
               tabIndex={hover ? 0 : -1}
-              className="text-[12px] font-medium text-violet-bright underline underline-offset-2 hover:text-text"
+              className="whitespace-nowrap text-[12px] font-medium text-violet-bright underline underline-offset-2 hover:text-text"
             >
               View installation instructions
             </a>
