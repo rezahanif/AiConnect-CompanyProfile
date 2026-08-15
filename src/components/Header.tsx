@@ -2,6 +2,13 @@ import { useEffect, useState } from 'react'
 import { nav } from '../data'
 import { BrandMark } from './ui'
 
+/** Home-aware anchor prefix: on legal pages (no home sections present) the
+ * header links must point back at the home page anchors. */
+const home = ['', '/', '/index.html'].includes(
+  window.location.pathname.split('?')[0].split('#')[0].replace(/\/$/, '') || '/',
+)
+const anchor = (suffix: string) => (home ? suffix : `/${suffix}`)
+
 export function Header() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -21,14 +28,14 @@ export function Header() {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-5 md:px-8">
-        <a href="#top" aria-label="AiConnect home">
+        <a href={home ? '#top' : '/'} aria-label="AiConnect home">
           <BrandMark />
         </a>
         <nav className="hidden items-center gap-8 md:flex">
           {nav.map((n) => (
             <a
               key={n}
-              href={`#${n.toLowerCase()}`}
+              href={anchor(`#${n.toLowerCase()}`)}
               className="text-[14px] font-medium text-muted transition-colors hover:text-text"
             >
               {n}
@@ -37,7 +44,7 @@ export function Header() {
         </nav>
         <div className="hidden items-center gap-3 md:flex">
           <a
-            href="#download"
+            href={anchor('#download')}
             className="rounded-xl px-4 py-2 text-[14px] font-semibold text-white shadow-[0_8px_28px_-10px_rgba(59,130,246,0.35)] transition-transform hover:-translate-y-0.5"
             style={{ background: 'linear-gradient(135deg,#3b82f6,#3b82f6)' }}
           >
@@ -63,7 +70,7 @@ export function Header() {
             {nav.map((n) => (
               <a
                 key={n}
-                href={`#${n.toLowerCase()}`}
+                href={anchor(`#${n.toLowerCase()}`)}
                 onClick={() => setOpen(false)}
                 className="rounded-lg px-3 py-2.5 text-[15px] font-medium text-muted hover:bg-white/[0.04] hover:text-text"
               >
@@ -71,7 +78,7 @@ export function Header() {
               </a>
             ))}
             <a
-              href="#download"
+              href={anchor('#download')}
               onClick={() => setOpen(false)}
               className="mt-2 rounded-xl px-4 py-3 text-center text-[15px] font-semibold text-white"
               style={{ background: 'linear-gradient(135deg,#3b82f6,#3b82f6)' }}

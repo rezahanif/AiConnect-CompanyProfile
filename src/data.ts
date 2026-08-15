@@ -64,7 +64,7 @@ export const footerCols: { title: string; links: { label: string; href: string }
       { label: 'Instagram', href: 'https://www.instagram.com/aiconnectfun' },
     ],
   },
-  { title: 'Legal', links: [{ label: 'Terms', href: '#' }, { label: 'Privacy', href: '#' }, { label: 'Licenses', href: '#' }] },
+  { title: 'Legal', links: [{ label: 'Terms of Use', href: '/terms' }, { label: 'Privacy Policy', href: '/privacy' }, { label: 'Licenses', href: '#' }] },
 ]
 
 export const mailtoHref =
