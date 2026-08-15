@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import logoUrl from '../assets/logo.webp'
 
 /* Scroll reveal ------------------------------------------------------ */
 
@@ -47,30 +48,14 @@ export function Reveal({
 
 export function BrandMark({ size = 30 }: { size?: number }) {
   return (
-    <span className="inline-flex items-center gap-2.5 select-none">
-      <svg width={size} height={size} viewBox="0 0 32 32" fill="none" aria-hidden>
-        <defs>
-          <linearGradient id="bm" x1="4" y1="4" x2="28" y2="28">
-            <stop stopColor="#3b82f6" />
-            <stop offset="1" stopColor="#3b82f6" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M16 3.5 27.2 10v12L16 28.5 4.8 22V10L16 3.5Z"
-          stroke="url(#bm)"
-          strokeWidth="1.6"
-          fill="rgba(59,130,246,0.10)"
-        />
-        <circle cx="16" cy="16" r="3.1" fill="url(#bm)" />
-        <path d="M16 12.9V8M16 19.1V24M12.9 16H8M19.1 16H24" stroke="url(#bm)" strokeWidth="1.6" strokeLinecap="round" />
-        <circle cx="16" cy="8" r="1.5" fill="#3b82f6" />
-        <circle cx="16" cy="24" r="1.5" fill="#3b82f6" />
-        <circle cx="8" cy="16" r="1.5" fill="#3b82f6" />
-        <circle cx="24" cy="16" r="1.5" fill="#3b82f6" />
-      </svg>
-      <span className="text-[17px] font-extrabold tracking-tight text-text">
-        Ai<span className="text-violet-bright">Connect</span>
-      </span>
+    <span className="inline-flex select-none">
+      <img
+        src={logoUrl}
+        alt="AiConnect"
+        style={{ height: size }}
+        className="w-auto"
+        draggable={false}
+      />
     </span>
   )
 }

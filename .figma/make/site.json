@@ -1,5 +1,8 @@
 {
   "description": "This web application streamlines project management by allowing users to create, edit, and collaborate on tasks using an intuitive interface and markdown support.",
+  "icons": {
+    "icon": "/favicon.png"
+  },
   "robots": {
     "index": false
   },
