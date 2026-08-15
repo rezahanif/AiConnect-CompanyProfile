@@ -29,7 +29,7 @@ export function Header() {
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-5 md:px-8">
         <a href={home ? '#top' : '/'} aria-label="AiConnect home">
-          <BrandMark />
+          <BrandMark size={42} />
         </a>
         <nav className="hidden items-center gap-8 md:flex">
           {nav.map((n) => (
