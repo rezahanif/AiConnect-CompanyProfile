@@ -1,3 +1,4 @@
+import { motion } from 'motion/react'
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import logoUrl from '../assets/logo.webp'
 
@@ -104,6 +105,7 @@ export function DownloadButton({
   onSelect?: () => void
 }) {
   const Icon = os === 'macOS' ? IconApple : os === 'Windows' ? IconWindows : IconLinux
+  const [hover, setHover] = useState(false)
   const base =
     'group inline-flex items-center gap-2.5 rounded-xl px-5 py-3 text-[15px] font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet/70'
   const ariaLabel = `Download AiConnect for ${os}`
@@ -125,18 +127,34 @@ export function DownloadButton({
     return (
       <span
         aria-disabled="true"
-        className={`${base} cursor-default border border-hairline bg-white/[0.02] text-muted`}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        onFocus={() => setHover(true)}
+        onBlur={() => setHover(false)}
+        className={`${base} group cursor-default border border-hairline bg-white/[0.02] text-muted`}
       >
-        <Icon className="h-[18px] w-[18px]" />
+        <Icon className="h-6 w-6 shrink-0" />
         <span className="flex flex-col items-start leading-tight">
           <span>{os} release currently unavailable</span>
-          <a
-            href="#install"
-            onClick={onSelect}
-            className="text-[12px] font-medium text-violet-bright underline underline-offset-2 hover:text-text"
+          <motion.span
+            initial={false}
+            animate={hover ? 'show' : 'hide'}
+            variants={{
+              hide: { opacity: 0, height: 0 },
+              show: { opacity: 1, height: 'auto' },
+            }}
+            transition={{ duration: 0.18, ease: 'easeOut' }}
+            className="overflow-hidden"
           >
-            View installation instructions
-          </a>
+            <a
+              href="#install"
+              onClick={onSelect}
+              tabIndex={hover ? 0 : -1}
+              className="text-[12px] font-medium text-violet-bright underline underline-offset-2 hover:text-text"
+            >
+              View installation instructions
+            </a>
+          </motion.span>
         </span>
       </span>
     )
