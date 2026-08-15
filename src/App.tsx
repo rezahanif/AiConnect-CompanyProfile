@@ -1,5 +1,4 @@
 import { Footer, FinalCTA } from './components/Footer'
-import { AmbientFloaters } from './components/AmbientFloaters'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { InstallInstructions } from './components/InstallInstructions'
@@ -20,12 +19,10 @@ import { mailtoHref } from './data'
 
 export default function App() {
   return (
-    <div id="top" className="relative min-h-screen bg-ink text-text">
-      <AmbientFloaters />
-      <div className="relative z-10">
-        <Header />
-        <main>
-          <Hero />
+    <div id="top" className="min-h-screen bg-ink text-text">
+      <Header />
+      <main>
+        <Hero />
         <EcosystemStrip />
         <WorkWithAI />
 
@@ -98,8 +95,7 @@ export default function App() {
 
         <InstallInstructions />
       </main>
-        <Footer />
-      </div>
+      <Footer />
     </div>
   )
 }

@@ -63,10 +63,6 @@ body {
   background-clip: content-box;
 }
 
-@keyframes float-slow {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(var(--r, 0deg)); }
-  50% { transform: translate3d(0, -18px, 0) rotate(var(--r, 0deg)); }
-}
 @keyframes breathe {
   0%, 100% { opacity: 0.55; transform: scale(1); }
   50% { opacity: 0.9; transform: scale(1.08); }
@@ -79,7 +75,6 @@ body {
   to { stroke-dashoffset: -24; }
 }
 
-.animate-float { animation: float-slow 7s ease-in-out infinite; }
 .animate-breathe { animation: breathe 9s ease-in-out infinite; }
 
 .reveal {
@@ -90,7 +85,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-float, .animate-breathe { animation: none; }
+  .animate-breathe { animation: none; }
   .reveal { opacity: 1; animation: none; }
   html { scroll-behavior: auto; }
 }
