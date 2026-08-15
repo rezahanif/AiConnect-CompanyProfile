@@ -1,5 +1,5 @@
 import { DownloadPicker } from './Download'
-import { Eyebrow, Reveal, WindowChrome } from './ui'
+import { Eyebrow, FloatingObject, Reveal, WindowChrome } from './ui'
 
 function HeroVisual() {
   return (
@@ -110,13 +110,44 @@ function HeroVisual() {
           <span className="ml-auto h-1.5 w-1.5 rounded-full bg-[#28c840] shadow-[0_0_8px_1px_#28c840]" />
         </div>
       </WindowChrome>
+
+      {/* floating ecosystem objects — absolute to the hero visual; the hero
+          uses overflow-x-clip (horizontal only), so chips may peek slightly
+          beyond the section vertically but scroll away with the hero and are
+          never viewport-locked. pointer-events-none keeps content clickable. */}
+      <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
+        <FloatingObject
+          label="Revit"
+          glyph="Rv"
+          tint="linear-gradient(135deg,#3a86ff,#1b4fb0)"
+          className="-left-4 top-10 hidden sm:block"
+          delay={0}
+          rotate={-4}
+        />
+        <FloatingObject
+          label="Claude"
+          glyph="C"
+          tint="linear-gradient(135deg,#d97757,#a8471f)"
+          className="-right-6 top-24 hidden sm:block"
+          delay={1.4}
+          rotate={5}
+        />
+        <FloatingObject
+          label="ArcGIS"
+          glyph="Ag"
+          tint="linear-gradient(135deg,#4b7bec,#26408b)"
+          className="-bottom-6 left-16 hidden sm:block"
+          delay={2.6}
+          rotate={-2}
+        />
+      </div>
     </div>
   )
 }
 
 export function Hero() {
   return (
-    <section id="product" className="relative overflow-hidden px-5 pt-32 pb-8 md:px-8 md:pt-40">
+    <section id="product" className="relative overflow-x-clip px-5 pt-32 pb-8 md:px-8 md:pt-40">
       {/* background field */}
       <div
         className="pointer-events-none absolute inset-0 -z-10"
