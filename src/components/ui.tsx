@@ -205,18 +205,22 @@ export function LogoChip({
   label,
   glyph,
   tint,
+  logo,
 }: {
   label: string
   glyph: string
   tint: string
+  logo?: string
 }) {
   return (
     <span className="inline-flex items-center gap-2.5 whitespace-nowrap text-[15px] font-semibold text-muted transition-colors hover:text-text">
       <span
-        className="grid h-8 w-8 place-items-center rounded-lg text-[13px] font-bold text-white"
-        style={{ background: tint }}
+        className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-white/[0.06]"
       >
-        {glyph}
+        {logo
+          ? <img src={logo} alt={label} className="h-6 w-6 object-contain" />
+          : <span className="text-[13px] font-bold text-white" style={{ background: tint }}>{glyph}</span>
+        }
       </span>
       {label}
     </span>

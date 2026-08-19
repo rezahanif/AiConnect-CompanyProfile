@@ -159,10 +159,10 @@ function ModelRowVisual() {
         {models.map((m) => (
           <div key={m.name} className="text-center">
             <div
-              className="mx-auto grid h-14 w-14 place-items-center rounded-2xl text-[18px] font-bold text-white"
-              style={{ background: m.tint, boxShadow: `0 12px 30px -12px ${m.tint}` }}
+              className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-white/[0.06]"
+              style={{ boxShadow: `0 12px 30px -12px ${m.tint}` }}
             >
-              {m.glyph}
+              <img src={m.logo} alt={m.name} className="h-10 w-10 object-contain" />
             </div>
             <div className="mt-2 text-[12px] font-semibold">{m.name}</div>
           </div>
@@ -197,10 +197,12 @@ function ConnectorGridVisual() {
             className="group flex items-center gap-3 rounded-xl border border-hairline bg-white/[0.02] px-3.5 py-3 transition-colors hover:border-violet/40 hover:bg-white/[0.05]"
           >
             <span
-              className="grid h-9 w-9 shrink-0 place-items-center rounded-lg text-[13px] font-bold text-white"
-              style={{ background: e.tint }}
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-white/[0.06]"
             >
-              {e.glyph}
+              {e.logo
+                ? <img src={e.logo} alt={e.label} className="h-7 w-7 object-contain" />
+                : <span className="text-[13px] font-bold text-white" style={{ background: e.tint }}>{e.glyph}</span>
+              }
             </span>
             <div className="min-w-0">
               <div className="truncate text-[13px] font-semibold">{e.label}</div>
