@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ai-connect-company-profile.vercel.app/sitemap.xml

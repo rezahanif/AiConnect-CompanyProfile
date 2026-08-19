@@ -1,10 +1,16 @@
 {
-  "description": "This web application streamlines project management by allowing users to create, edit, and collaborate on tasks using an intuitive interface and markdown support.",
+  "title": "AiConnect — Connect AI Agents to Revit, AutoCAD & More",
+  "description": "AiConnect connects AI agents to local engineering software like Revit, AutoCAD, and QGIS, with persistent project context across AI models and sessions.",
+  "language": "en",
   "icons": {
     "icon": "/favicon.png"
   },
   "robots": {
-    "index": false
+    "index": true,
+    "follow": true
+  },
+  "customScripts": {
+    "headStart": "<meta property=\"og:site_name\" content=\"AiConnect\">\n<meta property=\"og:type\" content=\"website\">\n<meta property=\"og:url\" content=\"https://ai-connect-company-profile.vercel.app\">\n<meta name=\"twitter:card\" content=\"summary_large_image\">\n<meta name=\"twitter:title\" content=\"AiConnect — Connect AI Agents to Revit, AutoCAD & More\">\n<meta name=\"twitter:description\" content=\"Connect AI agents to local engineering software like Revit, AutoCAD, and QGIS, with persistent project context across AI models and sessions.\">"
   },
   "accessibility": {
     "addBypassLinks": false,
