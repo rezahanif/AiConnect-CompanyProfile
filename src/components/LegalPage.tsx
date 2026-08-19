@@ -1,8 +1,8 @@
-import type { ReactNode } from 'react'
-import { mailtoHref } from '../data'
-import { Footer } from './Footer'
-import { Header } from './Header'
-import { Eyebrow } from './ui'
+import type { ReactNode } from "react"
+import { mailtoHref } from "../data"
+import { Footer } from "./Footer"
+import { Header } from "./Header"
+import { Eyebrow } from "./ui"
 
 export type LegalSection = {
   id: string
@@ -10,7 +10,7 @@ export type LegalSection = {
   content: ReactNode
 }
 
-const CONTACT_EMAIL = mailtoHref.replace(/^mailto:([^?]+).*/, '$1')
+const CONTACT_EMAIL = mailtoHref.replace(/^mailto:([^?]+).*/, "$1")
 
 export function LegalPage({
   eyebrow,
@@ -31,8 +31,12 @@ export function LegalPage({
       <main className="px-5 pb-24 pt-32 md:px-8 md:pt-40">
         <div className="mx-auto max-w-5xl">
           <Eyebrow>{eyebrow}</Eyebrow>
-          <h1 className="mt-6 text-4xl font-extrabold tracking-tight sm:text-5xl">{title}</h1>
-          <p className="mt-4 max-w-2xl text-[16px] leading-7 text-muted">{description}</p>
+          <h1 className="mt-6 text-4xl font-extrabold tracking-tight sm:text-5xl">
+            {title}
+          </h1>
+          <p className="mt-4 max-w-2xl text-[16px] leading-7 text-muted">
+            {description}
+          </p>
           <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.16em] text-muted">
             Last updated: {lastUpdated}
           </p>
@@ -64,7 +68,9 @@ export function LegalPage({
                   className="scroll-mt-24 border-b border-hairline pb-10 pt-4 first:pt-0"
                 >
                   <h2 className="text-2xl font-bold tracking-tight">
-                    <span className="mr-2 font-mono text-[15px] text-muted">{i + 1}.</span>
+                    <span className="mr-2 font-mono text-[15px] text-muted">
+                      {i + 1}.
+                    </span>
                     {s.title}
                   </h2>
                   <div className="mt-4 space-y-4">{s.content}</div>
@@ -79,7 +85,7 @@ export function LegalPage({
                   Contact
                 </h2>
                 <p className="mt-4 text-[15px] leading-7 text-muted">
-                  Questions about these {eyebrow.toLowerCase()}? Email us at{' '}
+                  Questions about these {eyebrow.toLowerCase()}? Email us at{" "}
                   <a
                     href={mailtoHref}
                     className="text-violet transition-colors hover:text-text focus:outline-none focus-visible:ring-2 focus-visible:ring-violet/70"

@@ -6,18 +6,18 @@
  */
 const ORBS = [
   {
-    tint: 'rgba(59,130,246,0.16)',
-    position: 'left-[6%] top-[14%]',
+    tint: "rgba(59,130,246,0.16)",
+    position: "left-[6%] top-[14%]",
     delay: 0,
   },
   {
-    tint: 'rgba(217,119,87,0.12)',
-    position: 'right-[8%] top-[28%]',
+    tint: "rgba(217,119,87,0.12)",
+    position: "right-[8%] top-[28%]",
     delay: 1.4,
   },
   {
-    tint: 'rgba(75,123,236,0.14)',
-    position: 'left-[10%] bottom-[18%]',
+    tint: "rgba(75,123,236,0.14)",
+    position: "left-[10%] bottom-[18%]",
     delay: 2.6,
   },
 ]

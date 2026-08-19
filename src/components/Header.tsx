@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react'
-import { nav } from '../data'
-import { BrandMark } from './ui'
+import { useEffect, useState } from "react"
+import { nav } from "../data"
+import { BrandMark } from "./ui"
 
 /** Home-aware anchor prefix: on legal pages (no home sections present) the
  * header links must point back at the home page anchors. */
-const home = ['', '/', '/index.html'].includes(
-  window.location.pathname.split('?')[0].split('#')[0].replace(/\/$/, '') || '/',
+const home = ["", "/", "/index.html"].includes(
+  window.location.pathname.split("?")[0].split("#")[0].replace(/\/$/, "") ||
+    "/",
 )
 const anchor = (suffix: string) => (home ? suffix : `/${suffix}`)
 
@@ -15,20 +16,20 @@ export function Header() {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12)
     onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'border-b border-hairline bg-ink/80 backdrop-blur-xl'
-          : 'border-b border-transparent'
+          ? "border-b border-hairline bg-ink/80 backdrop-blur-xl"
+          : "border-b border-transparent"
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-5 md:px-8">
-        <a href={home ? '#top' : '/'} aria-label="AiConnect home">
+        <a href={home ? "#top" : "/"} aria-label="AiConnect home">
           <BrandMark size={42} />
         </a>
         <nav className="hidden items-center gap-8 md:flex">
@@ -44,9 +45,9 @@ export function Header() {
         </nav>
         <div className="hidden items-center gap-3 md:flex">
           <a
-            href={anchor('#download')}
+            href={anchor("#download")}
             className="rounded-xl px-4 py-2 text-[14px] font-semibold text-white shadow-[0_8px_28px_-10px_rgba(59,130,246,0.35)] transition-transform hover:-translate-y-0.5"
-            style={{ background: 'linear-gradient(135deg,#3b82f6,#3b82f6)' }}
+            style={{ background: "linear-gradient(135deg,#3b82f6,#3b82f6)" }}
           >
             Download
           </a>
@@ -78,10 +79,10 @@ export function Header() {
               </a>
             ))}
             <a
-              href={anchor('#download')}
+              href={anchor("#download")}
               onClick={() => setOpen(false)}
               className="mt-2 rounded-xl px-4 py-3 text-center text-[15px] font-semibold text-white"
-              style={{ background: 'linear-gradient(135deg,#3b82f6,#3b82f6)' }}
+              style={{ background: "linear-gradient(135deg,#3b82f6,#3b82f6)" }}
             >
               Download
             </a>
