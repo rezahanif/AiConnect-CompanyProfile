@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { Analytics } from '@vercel/analytics/react'
 import App from './App'
 import './index.css'
 import PrivacyPage from './pages/Privacy'
@@ -17,9 +18,9 @@ function normalizePath(p: string): string {
 const path = normalizePath(window.location.pathname)
 
 let Root = App
-let title = 'AiConnect — AI-native engineering workspace'
+let title = 'AiConnect — Connect AI Agents to Revit, AutoCAD & More'
 let description =
-  'Connect AI agents to engineering software and keep project progress across AI models.'
+  'AiConnect connects AI agents to local engineering software like Revit, AutoCAD, and QGIS, with persistent project context across AI models and sessions.'
 if (path === '/terms') {
   Root = TermsPage
   title = 'Terms of Use — AiConnect'
@@ -40,5 +41,6 @@ document
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Root />
+    <Analytics />
   </React.StrictMode>,
 )
