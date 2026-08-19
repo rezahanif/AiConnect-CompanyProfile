@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from "react"
 import {
   archLabel,
   detectArchitecture,
@@ -10,36 +10,36 @@ import {
   releaseProvider,
   type PlatformName,
   type ReleaseInfo,
-} from '../releases'
-import { DownloadButton, type OS } from './ui'
+} from "../releases"
+import { DownloadButton, type OS } from "./ui"
 
-type DownloadStatus = 'loading' | 'ready' | 'error'
+type DownloadStatus = "loading" | "ready" | "error"
 
 const OS_BY_PLATFORM: Record<PlatformName, OS> = {
-  windows: 'Windows',
-  macos: 'macOS',
-  linux: 'Linux',
+  windows: "Windows",
+  macos: "macOS",
+  linux: "Linux",
 }
-const PLATFORM_ORDER: PlatformName[] = ['macos', 'windows', 'linux']
+const PLATFORM_ORDER: PlatformName[] = ["macos", "windows", "linux"]
 
 export function useReleases() {
-  const [status, setStatus] = useState<DownloadStatus>('loading')
+  const [status, setStatus] = useState<DownloadStatus>("loading")
   const [releases, setReleases] = useState<ReleaseInfo[]>([])
   const [reloadKey, setReloadKey] = useState(0)
 
   useEffect(() => {
     let cancelled = false
-    setStatus('loading')
+    setStatus("loading")
     releaseProvider
       .getReleases()
       .then((r) => {
         if (!cancelled) {
           setReleases(r)
-          setStatus('ready')
+          setStatus("ready")
         }
       })
       .catch(() => {
-        if (!cancelled) setStatus('error')
+        if (!cancelled) setStatus("error")
       })
     return () => {
       cancelled = true
@@ -49,7 +49,11 @@ export function useReleases() {
   return { status, releases, retry: () => setReloadKey((k) => k + 1) }
 }
 
-export function DownloadPicker({ showVersion = false }: { showVersion?: boolean }) {
+export function DownloadPicker({
+  showVersion = false,
+}: {
+  showVersion?: boolean
+}) {
   const { status, releases, retry } = useReleases()
   const [selected, setSelected] = useState<PlatformName | null>(null)
 
@@ -63,7 +67,7 @@ export function DownloadPicker({ showVersion = false }: { showVersion?: boolean 
   const version = latestVersion(releases)
   const archLine = archLabel(arch)
 
-  if (status === 'error') {
+  if (status === "error") {
     return (
       <div className="mx-auto mt-9 flex max-w-xl flex-col items-center gap-3 rounded-2xl border border-hairline bg-white/[0.03] px-5 py-4 text-center">
         <p className="text-[14px] leading-relaxed text-muted">
@@ -81,7 +85,7 @@ export function DownloadPicker({ showVersion = false }: { showVersion?: boolean 
     )
   }
 
-  const loading = status === 'loading'
+  const loading = status === "loading"
 
   return (
     <div className="mt-9">
@@ -89,22 +93,22 @@ export function DownloadPicker({ showVersion = false }: { showVersion?: boolean 
         <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-violet-bright">
           {selected && selected !== detected
             ? `You selected ${platformLabel(selected)} · ${platformLabel(detected!)} detected on this device`
-            : 'Recommended for your device'}
+            : "Recommended for your device"}
         </p>
       )}
       <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
         {PLATFORM_ORDER.map((p) => {
           const release = loading ? undefined : releaseForPlatform(releases, p)
           const state = loading
-            ? 'loading'
+            ? "loading"
             : isAvailable(release)
-              ? 'available'
-              : 'unavailable'
+              ? "available"
+              : "unavailable"
           return (
             <DownloadButton
               key={p}
               os={OS_BY_PLATFORM[p]}
-              variant={active === p ? 'primary' : 'ghost'}
+              variant={active === p ? "primary" : "ghost"}
               state={state}
               release={release}
               selected={active === p}
@@ -118,7 +122,7 @@ export function DownloadPicker({ showVersion = false }: { showVersion?: boolean 
         <p className="mt-4 font-mono text-[12px] text-muted">
           Latest version · {version}
           {showVersion && <span className="mx-2 text-hairline">|</span>}
-          {showVersion && '3 days trial · Windows, macOS & Linux'}
+          {showVersion && "3 days trial · Windows, macOS & Linux"}
         </p>
       )}
       {!version && (

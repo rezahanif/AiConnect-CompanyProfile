@@ -1,21 +1,34 @@
-import { platformLabel, type PlatformName } from '../releases'
-import { Eyebrow, Reveal } from './ui'
+import { platformLabel, type PlatformName } from "../releases"
+import { Eyebrow, Reveal } from "./ui"
 
-const STEPS: { platform: PlatformName; steps: string[]; note: string }[] = [
+const STEPS: { platform: PlatformName steps: string[] note: string }[] = [
   {
-    platform: 'windows',
-    steps: ['Download the installer', 'Open the installer and follow the setup steps', 'Launch AiConnect'],
-    note: 'Installation steps may vary slightly by release format.',
+    platform: "windows",
+    steps: [
+      "Download the installer",
+      "Open the installer and follow the setup steps",
+      "Launch AiConnect",
+    ],
+    note: "Installation steps may vary slightly by release format.",
   },
   {
-    platform: 'macos',
-    steps: ['Download the application', 'Open the downloaded image/application as appropriate', 'Install the application', 'Launch AiConnect'],
-    note: 'Installation steps may vary slightly by release format.',
+    platform: "macos",
+    steps: [
+      "Download the application",
+      "Open the downloaded image/application as appropriate",
+      "Install the application",
+      "Launch AiConnect",
+    ],
+    note: "Installation steps may vary slightly by release format.",
   },
   {
-    platform: 'linux',
-    steps: ['Await the first stable Linux package from the release pipeline', 'Install using the documented package format', 'Launch AiConnect'],
-    note: 'The Linux package format is not finalized yet. We will not claim a format until the release pipeline publishes one.',
+    platform: "linux",
+    steps: [
+      "Await the first stable Linux package from the release pipeline",
+      "Install using the documented package format",
+      "Launch AiConnect",
+    ],
+    note: "The Linux package format is not finalized yet. We will not claim a format until the release pipeline publishes one.",
   },
 ]
 
@@ -42,7 +55,10 @@ export function InstallInstructions() {
                 </h3>
                 <ol className="mt-5 space-y-3">
                   {s.steps.map((step, i) => (
-                    <li key={step} className="flex items-start gap-3 text-[14px] leading-relaxed">
+                    <li
+                      key={step}
+                      className="flex items-start gap-3 text-[14px] leading-relaxed"
+                    >
                       <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full border border-violet/40 font-mono text-[10px] text-violet-bright">
                         {i + 1}
                       </span>

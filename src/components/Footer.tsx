@@ -1,15 +1,18 @@
-import { footerCols } from '../data'
-import { DownloadPicker } from './Download'
-import { BrandMark, Reveal } from './ui'
+import { footerCols } from "../data"
+import { DownloadPicker } from "./Download"
+import { BrandMark, Reveal } from "./ui"
 
 export function FinalCTA() {
   return (
-    <section id="download" className="relative overflow-hidden px-5 py-28 md:px-8">
+    <section
+      id="download"
+      className="relative overflow-hidden px-5 py-28 md:px-8"
+    >
       <div
         className="animate-breathe pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'radial-gradient(55% 60% at 50% 50%, rgba(59,130,246,0.35), transparent 65%), radial-gradient(40% 50% at 70% 40%, rgba(59,130,246,0.18), transparent 65%)',
+            "radial-gradient(55% 60% at 50% 50%, rgba(59,130,246,0.35), transparent 65%), radial-gradient(40% 50% at 70% 40%, rgba(59,130,246,0.18), transparent 65%)",
         }}
       />
       <div className="mx-auto max-w-3xl text-center">
@@ -71,7 +74,9 @@ export function Footer() {
       </div>
       <div className="mx-auto mt-12 flex max-w-7xl flex-col items-center justify-between gap-3 border-t border-hairline pt-6 text-[12px] text-muted sm:flex-row">
         <span>© 2026 AiConnect. All rights reserved.</span>
-        <span className="font-mono">Works with compatible AI agents and models.</span>
+        <span className="font-mono">
+          Works with compatible AI agents and models.
+        </span>
       </div>
     </footer>
   )

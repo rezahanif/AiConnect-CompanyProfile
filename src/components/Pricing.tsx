@@ -1,5 +1,5 @@
-import { pricingIncludes } from '../data'
-import { Eyebrow, Reveal } from './ui'
+import { pricingIncludes } from "../data"
+import { Eyebrow, Reveal } from "./ui"
 
 export function Pricing() {
   return (
@@ -27,7 +27,7 @@ export function Pricing() {
             className="animate-breathe pointer-events-none absolute -inset-6 -z-10 blur-3xl"
             style={{
               background:
-                'radial-gradient(60% 60% at 50% 40%, rgba(59,130,246,0.35), transparent 70%)',
+                "radial-gradient(60% 60% at 50% 40%, rgba(59,130,246,0.35), transparent 70%)",
             }}
           />
           <div className="rounded-3xl border border-violet/30 bg-surface/80 p-8 shadow-[0_40px_100px_-40px_rgba(59,130,246,0.35)] backdrop-blur">
@@ -41,16 +41,30 @@ export function Pricing() {
             </div>
             <div className="mt-6 flex items-end gap-1.5">
               <span className="text-6xl font-extrabold tracking-tight">$1</span>
-              <span className="mb-2 text-[16px] font-medium text-muted">/ month</span>
+              <span className="mb-2 text-[16px] font-medium text-muted">
+                / month
+              </span>
             </div>
-            <p className="mt-2 text-[13px] text-muted">Billed monthly. Cancel anytime.</p>
+            <p className="mt-2 text-[13px] text-muted">
+              Billed monthly. Cancel anytime.
+            </p>
 
             <ul className="mt-7 space-y-3 text-left">
               {pricingIncludes.map((f) => (
                 <li key={f} className="flex items-center gap-3 text-[14px]">
                   <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-violet/20">
-                    <svg viewBox="0 0 24 24" className="h-3 w-3 text-violet-bright" fill="none" stroke="currentColor" strokeWidth="3">
-                      <path d="m5 12 5 5 9-11" strokeLinecap="round" strokeLinejoin="round" />
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="h-3 w-3 text-violet-bright"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                    >
+                      <path
+                        d="m5 12 5 5 9-11"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
                     </svg>
                   </span>
                   <span className="text-muted">{f}</span>
@@ -61,7 +75,7 @@ export function Pricing() {
             <a
               href="#download"
               className="mt-8 block rounded-xl px-5 py-3.5 text-center text-[15px] font-semibold text-white shadow-[0_12px_40px_-12px_rgba(59,130,246,0.35)] transition-transform hover:-translate-y-0.5"
-              style={{ background: 'linear-gradient(135deg,#3b82f6,#3b82f6)' }}
+              style={{ background: "linear-gradient(135deg,#3b82f6,#3b82f6)" }}
             >
               Start free trial
             </a>
