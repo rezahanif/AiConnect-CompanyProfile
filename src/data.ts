@@ -8,7 +8,7 @@ export const ecosystem = [
   { label: 'SketchUp', glyph: 'Sk', tint: 'linear-gradient(135deg,#f5a623,#b5730a)', logo: '/logos/logo-sketchup.png' },
   { label: 'SAP2000', glyph: 'Sp', tint: 'linear-gradient(135deg,#7c5cff,#472fa8)', logo: '/logos/logo-sap.png' },
   { label: 'Metashape', glyph: 'Ms', tint: 'linear-gradient(135deg,#26c6da,#0d7d8c)', logo: '/logos/logo-metashape.png' },
-  { label: 'MS Office', glyph: 'Of', tint: 'linear-gradient(135deg,#e8663a,#a33d1a)', logo: '/logos/logo-msproject.png' },
+  { label: 'MS Project', glyph: 'Of', tint: 'linear-gradient(135deg,#e8663a,#a33d1a)', logo: '/logos/logo-msproject.png' },
   { label: 'Abaqus', glyph: 'Ab', tint: 'linear-gradient(135deg,#607d8b,#37474f)', logo: '/logos/logo-abaqus.png' },
 ]
 
