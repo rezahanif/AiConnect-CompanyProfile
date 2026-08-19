@@ -104,7 +104,7 @@ function CrossModelVisual() {
   return (
     <WindowChrome title="Progress Store — session handoff" accent="#3b82f6">
       <div className="p-5">
-        <div className="grid grid-cols-[1fr_auto_1fr] items-stretch gap-3">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-[1fr_auto_1fr] md:items-stretch">
           {/* Claude */}
           <div className="rounded-xl border border-hairline bg-ink-2/70 p-4">
             <div className="mb-3 flex items-center gap-2">
@@ -117,13 +117,20 @@ function CrossModelVisual() {
               <div className="rounded-md bg-white/[0.03] px-2 py-1.5">takeoff → 312 m³</div>
             </div>
           </div>
-          {/* arrow / store */}
-          <div className="flex flex-col items-center justify-center px-1">
+          {/* arrow / store — vertical on md+, horizontal on mobile */}
+          <div className="hidden md:flex flex-col items-center justify-center px-1">
             <svg viewBox="0 0 40 120" className="h-full w-9" aria-hidden>
               <line x1="20" y1="0" x2="20" y2="120" stroke="#3b82f6" strokeWidth="1.4" strokeDasharray="4 4" opacity="0.6" style={{ animation: 'dash-flow 1.2s linear infinite' }} />
               <circle cx="20" cy="60" r="12" fill="rgba(59,130,246,0.14)" stroke="#3b82f6" strokeWidth="1.2" />
             </svg>
             <span className="mt-1 font-mono text-[8px] text-cyan">store</span>
+          </div>
+          <div className="flex md:hidden items-center justify-center gap-2 py-2">
+            <svg viewBox="0 0 120 40" className="w-20 h-5" aria-hidden>
+              <line x1="0" y1="20" x2="120" y2="20" stroke="#3b82f6" strokeWidth="1.4" strokeDasharray="4 4" opacity="0.6" style={{ animation: 'dash-flow 1.2s linear infinite' }} />
+              <circle cx="60" cy="20" r="12" fill="rgba(59,130,246,0.14)" stroke="#3b82f6" strokeWidth="1.2" />
+            </svg>
+            <span className="font-mono text-[8px] text-cyan">store</span>
           </div>
           {/* GPT */}
           <div className="rounded-xl border border-violet/30 bg-violet/[0.08] p-4">
