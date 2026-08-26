@@ -40,7 +40,7 @@ export function Pricing() {
               </span>
             </div>
             <div className="mt-6 flex items-end gap-1.5">
-              <span className="text-6xl font-extrabold tracking-tight">$1</span>
+              <span className="text-6xl font-extrabold tracking-tight">$1.5</span>
               <span className="mb-2 text-[16px] font-medium text-muted">/ month</span>
             </div>
             <p className="mt-2 text-[13px] text-muted">Billed monthly. Cancel anytime.</p>
