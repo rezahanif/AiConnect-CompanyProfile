@@ -78,9 +78,14 @@ body {
 @keyframes dash-flow {
   to { stroke-dashoffset: -24; }
 }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
 
 .animate-float { animation: float-slow 7s ease-in-out infinite; }
 .animate-breathe { animation: breathe 9s ease-in-out infinite; }
+.animate-marquee { animation: marquee 30s linear infinite; }
 
 .reveal {
   opacity: 0;
@@ -90,7 +95,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-float, .animate-breathe { animation: none; }
+  .animate-float, .animate-breathe, .animate-marquee { animation: none; }
   .reveal { opacity: 1; animation: none; }
   html { scroll-behavior: auto; }
 }

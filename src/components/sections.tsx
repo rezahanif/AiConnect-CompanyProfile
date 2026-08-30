@@ -3,6 +3,7 @@ import { ecosystem, guideSteps, mailtoHref, models, skills } from '../data'
 import { BrandMark, Eyebrow, LogoChip, Reveal, WindowChrome } from './ui'
 
 export function EcosystemStrip() {
+  const items = [...ecosystem, ...ecosystem]
   return (
     <section className="relative px-5 py-16 md:px-8">
       <div className="mx-auto max-w-7xl">
@@ -13,17 +14,9 @@ export function EcosystemStrip() {
         </Reveal>
         <Reveal delay={100}>
           <div className="relative mt-8 overflow-hidden">
-            <div
-              className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24"
-              style={{ background: 'linear-gradient(90deg,var(--color-ink),transparent)' }}
-            />
-            <div
-              className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24"
-              style={{ background: 'linear-gradient(270deg,var(--color-ink),transparent)' }}
-            />
-            <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
-              {ecosystem.map((e) => (
-                <LogoChip key={e.label} {...e} />
+            <div className="animate-marquee flex w-max items-center gap-x-10 hover:[animation-play-state:paused]">
+              {items.map((e, i) => (
+                <LogoChip key={`${e.label}-${i}`} {...e} />
               ))}
             </div>
           </div>
@@ -277,9 +270,8 @@ function GuideShowcaseVisual() {
           {guideSteps.map((g, i) => (
             <div
               key={g}
-              className={`rounded-lg px-2.5 py-2 text-[11px] font-medium ${
-                i === 3 ? 'bg-violet/15 text-violet-bright' : 'text-muted'
-              }`}
+              className={`rounded-lg px-2.5 py-2 text-[11px] font-medium ${i === 3 ? 'bg-violet/15 text-violet-bright' : 'text-muted'
+                }`}
             >
               {g}
             </div>
