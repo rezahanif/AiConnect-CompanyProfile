@@ -5,26 +5,8 @@ import { BrandMark, Reveal } from './ui'
 export function FinalCTA() {
   return (
     <section id="download" className="relative overflow-hidden px-5 py-28 md:px-8">
-      <div
-        className="animate-breathe pointer-events-none absolute inset-0 -z-10"
-        style={{
-          background:
-            'radial-gradient(55% 60% at 50% 50%, rgba(59,130,246,0.35), transparent 65%), radial-gradient(40% 50% at 70% 40%, rgba(59,130,246,0.18), transparent 65%)',
-        }}
-      />
       <div className="mx-auto max-w-3xl text-center">
         <Reveal>
-          <h2 className="text-4xl font-extrabold tracking-tight sm:text-6xl">
-            Start building with AI today.
-          </h2>
-        </Reveal>
-        <Reveal delay={100}>
-          <p className="mx-auto mt-5 max-w-xl text-[18px] leading-relaxed text-muted">
-            Connect your tools. Keep your progress. Continue with the AI model
-            that works best for you.
-          </p>
-        </Reveal>
-        <Reveal delay={180}>
           <DownloadPicker />
         </Reveal>
       </div>
@@ -39,12 +21,12 @@ export function Footer() {
         <div>
           <BrandMark />
           <p className="mt-4 max-w-xs text-[14px] leading-relaxed text-muted">
-            Connect AI agents to the software that does the real work — and keep
-            your progress across models.
+            Connect AI agents to your engineering software. Keep your project
+            context across sessions.
           </p>
           <a
             href="#"
-            className="mt-5 inline-flex items-center gap-2 rounded-xl border border-hairline bg-white/[0.03] px-4 py-2.5 text-[13px] font-semibold text-text transition-colors hover:border-violet/50 hover:bg-white/[0.06]"
+            className="mt-5 inline-flex items-center gap-2 rounded-xl border border-hairline bg-white/[0.03] px-4 py-2.5 text-[13px] font-semibold text-text transition-all duration-200 hover:border-violet/40 hover:bg-violet/10 hover:shadow-[0_4px_16px_-4px_rgba(59,130,246,0.3)]"
           >
             <span className="text-violet-bright">♥</span> Support development
           </a>
