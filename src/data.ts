@@ -39,10 +39,10 @@ export const guideSteps = [
 ]
 
 export const pricingIncludes = [
-  'Full connector library',
-  'Cross-model Progress Store',
-  'Reusable engineering skills',
-  'Complete connector guides',
+  'All current and future connectors',
+  'Project context that persists across AI models',
+  'Reusable workflows for repeatable tasks',
+  'Step-by-step connector guides',
   'Windows, macOS & Linux app',
 ]
 

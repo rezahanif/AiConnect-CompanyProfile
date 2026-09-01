@@ -4,15 +4,6 @@ import { Eyebrow, Reveal, WindowChrome } from './ui'
 function HeroVisual() {
   return (
     <div className="relative mx-auto mt-16 w-full max-w-5xl">
-      {/* glow */}
-      <div
-        className="animate-breathe pointer-events-none absolute -inset-x-10 -top-24 bottom-10 -z-10 blur-3xl"
-        style={{
-          background:
-            'radial-gradient(60% 55% at 50% 40%, rgba(59,130,246,0.35), transparent 70%), radial-gradient(40% 40% at 75% 60%, rgba(59,130,246,0.2), transparent 70%)',
-        }}
-      />
-
       <WindowChrome
         title="AiConnect — Desktop"
         accent="#3b82f6"
@@ -66,7 +57,13 @@ function HeroVisual() {
                   </linearGradient>
                 </defs>
                 {[0, 1, 2, 3].map((i) => (
-                  <g key={i} transform={`translate(0 ${i * 20})`} opacity={1 - i * 0.12}>
+                  <g
+                    key={i}
+                    transform={`translate(0 ${i * 20})`}
+                    opacity={1 - i * 0.12}
+                    className="floor-rise"
+                    style={{ animationDelay: `${0.3 + i * 0.15}s` }}
+                  >
                     <path
                       d="M60 90 L150 60 L210 82 L120 112 Z"
                       fill="url(#floor)"
@@ -75,21 +72,28 @@ function HeroVisual() {
                     />
                   </g>
                 ))}
-                <path d="M60 90 L60 40 M150 60 L150 10 M210 82 L210 32 M120 112 L120 62" stroke="#6fa0ff" strokeWidth="0.8" opacity="0.5" />
-                <circle cx="150" cy="60" r="3" fill="#3b82f6">
-                  <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" />
-                </circle>
+                <path
+                  d="M60 90 L60 40 M150 60 L150 10 M210 82 L210 32 M120 112 L120 62"
+                  stroke="#6fa0ff"
+                  strokeWidth="0.8"
+                  opacity="0.5"
+                  strokeDasharray="50"
+                  strokeDashoffset="50"
+                  style={{ animation: 'draw-vertical 1s ease-out 1.1s forwards' }}
+                />
+                <circle cx="150" cy="60" r="3" fill="#3b82f6" className="animate-pulse" />
+                <circle cx="150" cy="60" r="3" fill="none" stroke="#3b82f6" strokeWidth="1" style={{ animation: 'ripple 1.8s ease-out infinite' }} />
               </svg>
-              <div className="absolute bottom-2 left-3 font-mono text-[10px] text-[#7db0ff]">
+              <div className="absolute bottom-2 left-3 font-mono text-[10px] text-[#7db0ff] status-blink">
                 Level 2 · slab 250mm · updated
               </div>
             </div>
             <div className="mt-3 grid grid-cols-2 gap-2 font-mono text-[10px]">
               <div className="rounded-lg border border-hairline bg-white/[0.02] px-2.5 py-1.5 text-muted">
-                Concrete <span className="float-right text-text">312 m³</span>
+                Concrete <span className="float-right text-text" style={{ animation: 'stat-glow 2.5s ease-in-out 1.5s infinite' }}>312 m³</span>
               </div>
               <div className="rounded-lg border border-hairline bg-white/[0.02] px-2.5 py-1.5 text-muted">
-                Elements <span className="float-right text-text">14</span>
+                Elements <span className="float-right text-text" style={{ animation: 'stat-glow 2.5s ease-in-out 1.8s infinite' }}>14</span>
               </div>
             </div>
           </div>
@@ -117,50 +121,30 @@ function HeroVisual() {
 export function Hero() {
   return (
     <section id="product" className="relative overflow-hidden px-5 pt-32 pb-8 md:px-8 md:pt-40">
-      {/* background field */}
-      <div
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          background:
-            'radial-gradient(80% 60% at 50% -10%, rgba(59,130,246,0.35), transparent 60%), radial-gradient(50% 40% at 85% 20%, rgba(59,130,246,0.2), transparent 60%)',
-        }}
-      />
-      <div
-        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.5]"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(59,130,246,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.08) 1px, transparent 1px)',
-          backgroundSize: '52px 52px',
-          maskImage: 'radial-gradient(70% 60% at 50% 0%, #000, transparent 75%)',
-          WebkitMaskImage: 'radial-gradient(70% 60% at 50% 0%, #000, transparent 75%)',
-        }}
-      />
-
       <div className="mx-auto max-w-3xl text-center">
         <Reveal>
-          <Eyebrow>AI-native engineering workspace</Eyebrow>
+          <Eyebrow>Connect AI to your engineering tools</Eyebrow>
         </Reveal>
-        <Reveal delay={80}>
-          <h1 className="mt-6 text-balance text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl md:text-[68px]">
-            Build with AI.
-            <br />
-            <span
-              className="bg-clip-text text-transparent"
-              style={{ backgroundImage: 'linear-gradient(120deg,#3b82f6 20%,#3b82f6 90%)' }}
-            >
-              Continue without losing context.
-            </span>
-          </h1>
-        </Reveal>
+        <h1 className="mt-6 text-balance text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl md:text-[68px]">
+          <span className="hero-line-1 block">Your AI agent,</span>
+          <span
+            className="hero-line-2 block bg-clip-text text-transparent"
+            style={{ backgroundImage: 'linear-gradient(120deg,#3b82f6 20%,#3b82f6 90%)' }}
+          >
+            working in your software.
+          </span>
+        </h1>
         <Reveal delay={160}>
-          <p className="mx-auto mt-6 max-w-2xl text-pretty text-[17px] leading-relaxed text-muted md:text-[19px]">
+          <p className="mx-auto mt-6 max-w-2xl text-[17px] leading-relaxed text-center text-muted md:text-[19px]">
             AiConnect lets AI agents work across engineering software, documents,
             and professional tools — while preserving your project progress
             across sessions and AI models.
           </p>
         </Reveal>
         <Reveal delay={240}>
-          <DownloadPicker showVersion />
+          <div className="download-entrance">
+            <DownloadPicker showVersion />
+          </div>
         </Reveal>
       </div>
 

@@ -167,7 +167,7 @@ export function DownloadButton({
         href={release?.downloadUrl ?? '#download'}
         aria-label={ariaLabel}
         onClick={onSelect}
-        className={`${base} text-white shadow-[0_10px_40px_-10px_rgba(59,130,246,0.35)] hover:-translate-y-0.5`}
+        className={`${base} btn-glow text-white hover:-translate-y-0.5`}
         style={{ background: 'linear-gradient(135deg,#3b82f6,#3b82f6)' }}
       >
         <Icon className="h-[18px] w-[18px]" />
@@ -232,7 +232,6 @@ export function LogoChip({
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
     <span className="inline-flex items-center gap-2 rounded-full border border-hairline bg-white/[0.03] px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-violet-bright">
-      <span className="h-1.5 w-1.5 rounded-full bg-violet-bright shadow-[0_0_10px_2px_rgba(59,130,246,0.35)]" />
       {children}
     </span>
   )
@@ -259,9 +258,6 @@ export function WindowChrome({
       style={style}
     >
       <div className="flex items-center gap-2 border-b border-hairline bg-white/[0.02] px-4 py-2.5">
-        <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
-        <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
-        <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
         <span className="ml-2 font-mono text-[11px] text-muted">{title}</span>
         <span
           className="ml-auto h-1.5 w-1.5 rounded-full"

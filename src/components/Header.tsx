@@ -36,7 +36,7 @@ export function Header() {
             <a
               key={n}
               href={anchor(`#${n.toLowerCase()}`)}
-              className="text-[14px] font-medium text-muted transition-colors hover:text-text"
+              className="nav-link relative text-[14px] font-medium text-muted transition-colors hover:text-text"
             >
               {n}
             </a>
