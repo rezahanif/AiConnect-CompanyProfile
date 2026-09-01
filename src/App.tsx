@@ -95,7 +95,7 @@ export default function App() {
             visual={<GuideShowcaseVisual />}
           />
 
-          <section className="relative px-5 py-24 md:px-8">
+          <section className="relative flex flex-col items-center justify-center px-5 py-20 md:px-8">
             <div className="mx-auto max-w-4xl text-center">
               <Reveal>
                 <Eyebrow>How it connects</Eyebrow>

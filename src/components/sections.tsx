@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { ecosystem, guideSteps, mailtoHref, models, skills } from '../data'
 import { BrandMark, Eyebrow, LogoChip, Reveal, WindowChrome } from './ui'
 
@@ -376,52 +376,303 @@ function GuideShowcaseVisual() {
 
 /* Final value diagram ------------------------------------------------------ */
 
+interface NodeRect { cx: number; cy: number; w: number; h: number }
+
+interface TimelineEntry {
+  start: number
+  end: number
+  activate: string[]
+}
+
+const TIMELINE: TimelineEntry[] = [
+  { start: 0, end: 600, activate: ['project'] },
+  { start: 600, end: 1200, activate: ['model-0'] },
+  { start: 750, end: 1350, activate: ['model-1'] },
+  { start: 900, end: 1500, activate: ['model-2'] },
+  { start: 1500, end: 2200, activate: ['aiconnect'] },
+  { start: 2200, end: 2800, activate: ['tool-0'] },
+  { start: 2350, end: 2950, activate: ['tool-1'] },
+  { start: 2500, end: 3100, activate: ['tool-2'] },
+  { start: 3100, end: 3800, activate: ['progress'] },
+]
+
+interface Segment {
+  path: string
+  start: number
+  end: number
+}
+
+const CYCLE = 4500
+const PAUSE = 1200
+const NODE_BG = '#0a0e18'
+
+const bottomOf = (r: NodeRect) => ({ x: r.cx, y: r.cy + r.h / 2 })
+const topOf = (r: NodeRect) => ({ x: r.cx, y: r.cy - r.h / 2 })
+
 export function ValueDiagram() {
   const ACCENT = '#3b82f6'
-  const Node = ({ label, primary = false }: { label: string; primary?: boolean }) => (
-    <div
-      className={`rounded-2xl border-2 px-6 py-3.5 text-[15px] font-bold tracking-wide shadow-lg transition-all duration-200 hover:scale-105 ${primary ? 'node-glow' : ''}`}
-      style={{
-        borderColor: primary ? ACCENT : 'rgba(255,255,255,0.15)',
-        background: primary ? `${ACCENT}22` : 'rgba(255,255,255,0.05)',
-        color: primary ? ACCENT : '#e2e4f0',
-        boxShadow: primary ? `0 0 24px -4px ${ACCENT}50` : '0 4px 24px rgba(0,0,0,0.6)',
-      }}
-    >
-      {label}
-    </div>
-  )
-  const Connector = ({ delay = 0 }: { delay?: number }) => (
-    <div className="mx-auto my-1.5 flex flex-col items-center">
-      <svg viewBox="0 0 2 28" className="h-7 w-1 path-draw" style={{ animationDelay: `${delay}ms` }}>
-        <line x1="1" y1="0" x2="1" y2="22" stroke={ACCENT} strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
-      </svg>
-      <svg viewBox="0 0 8 6" className="h-2 w-2 path-draw" style={{ animationDelay: `${delay + 200}ms` }} fill={ACCENT}>
-        <path d="M4 6L0 0h8z" />
-      </svg>
-    </div>
-  )
+  const [rects, setRects] = useState<Record<string, NodeRect>>({})
+  const [activeNodes, setActiveNodes] = useState<Set<string>>(new Set())
+  const [w, setW] = useState(0)
+  const [h, setH] = useState(0)
+  const [measured, setMeasured] = useState(false)
+  const [reducedMotion, setReducedMotion] = useState(false)
+  const [packetPos, setPacketPos] = useState<{ x: number; y: number } | null>(null)
+  const [packetOpacity, setPacketOpacity] = useState(0)
+
+  const containerRef = useRef<HTMLDivElement>(null)
+  const projectRef = useRef<HTMLDivElement>(null)
+  const modelRefs = [useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null)]
+  const aiconnectRef = useRef<HTMLDivElement>(null)
+  const toolRefs = [useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null)]
+  const progressRef = useRef<HTMLDivElement>(null)
+  const pathRefs = useRef<(SVGPathElement | null)[]>([])
+  const fullPathRef = useRef<SVGPathElement | null>(null)
+  const segmentsRef = useRef<Segment[]>([])
+  const rafRef = useRef<number>(0)
+
+  useEffect(() => {
+    setReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+  }, [])
+
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    const ro = new ResizeObserver(([entry]) => {
+      setW(entry.contentRect.width)
+      setH(entry.contentRect.height)
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (w === 0 || h === 0) return
+    const container = containerRef.current
+    if (!container) return
+    const cr = container.getBoundingClientRect()
+    const out: Record<string, NodeRect> = {}
+    const allRefs = [
+      { id: 'project', ref: projectRef },
+      ...modelRefs.map((ref, i) => ({ id: `model-${i}`, ref })),
+      { id: 'aiconnect', ref: aiconnectRef },
+      ...toolRefs.map((ref, i) => ({ id: `tool-${i}`, ref })),
+      { id: 'progress', ref: progressRef },
+    ]
+    for (const { id, ref } of allRefs) {
+      const el = ref.current
+      if (el) {
+        const r = el.getBoundingClientRect()
+        out[id] = { cx: r.left - cr.left + r.width / 2, cy: r.top - cr.top + r.height / 2, w: r.width, h: r.height }
+      }
+    }
+    setRects(out)
+    setMeasured(true)
+  }, [w, h])
+
+  useEffect(() => {
+    if (reducedMotion || !measured) return
+    let start = 0
+
+    const tick = (now: number) => {
+      if (start === 0) start = now
+      const elapsed = (now - start) % (CYCLE + PAUSE)
+      const inPause = elapsed >= CYCLE
+
+      if (inPause) {
+        setActiveNodes(new Set())
+        setPacketPos(null)
+        setPacketOpacity(0)
+        rafRef.current = requestAnimationFrame(tick)
+        return
+      }
+
+      const t = elapsed
+
+      const nodes = new Set<string>()
+      for (const entry of TIMELINE) {
+        if (t >= entry.start && t < entry.end) {
+          for (const id of entry.activate) nodes.add(id)
+        }
+      }
+      setActiveNodes(nodes)
+
+      const fp = fullPathRef.current
+      if (fp) {
+        const len = fp.getTotalLength()
+        const progress = Math.min(t / CYCLE, 1)
+        const pt = fp.getPointAtLength(progress * len)
+        setPacketPos({ x: pt.x, y: pt.y })
+        const fadeIn = Math.min(t / 300, 1)
+        const fadeOut = Math.max(1 - (t - (CYCLE - 500)) / 500, 0)
+        setPacketOpacity(t > CYCLE - 500 ? fadeOut : fadeIn)
+      }
+
+      rafRef.current = requestAnimationFrame(tick)
+    }
+    rafRef.current = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(rafRef.current)
+  }, [reducedMotion, measured])
+
+  const buildSegments = (): Segment[] => {
+    const p = rects
+    if (!p.project || !p.aiconnect || !p.progress) return []
+
+    const projBot = bottomOf(p.project)
+    const modTop = [0, 1, 2].map(i => topOf(p[`model-${i}`]))
+    const modBot = [0, 1, 2].map(i => bottomOf(p[`model-${i}`]))
+    const aiTop = topOf(p.aiconnect)
+    const aiBot = bottomOf(p.aiconnect)
+    const toolTop = [0, 1, 2].map(i => topOf(p[`tool-${i}`]))
+    const toolBot = [0, 1, 2].map(i => bottomOf(p[`tool-${i}`]))
+    const progTop = topOf(p.progress)
+
+    const branchY1 = (projBot.y + modTop[0].y) / 2
+    const convergeY1 = (modBot[0].y + aiTop.y) / 2
+    const branchY2 = (aiBot.y + toolTop[0].y) / 2
+    const convergeY2 = (toolBot[0].y + progTop.y) / 2
+
+    const segments: Segment[] = []
+
+    // ── Full trunk path (single packet route through center) ──
+    const fullD = [
+      `M${projBot.x},${projBot.y}`,
+      `L${projBot.x},${branchY1}`,
+      `L${modTop[1].x},${branchY1}`,
+      `L${modTop[1].x},${modTop[1].y}`,
+      `L${modBot[1].x},${modBot[1].y}`,
+      `L${modBot[1].x},${convergeY1}`,
+      `L${aiTop.x},${convergeY1}`,
+      `L${aiTop.x},${aiTop.y}`,
+      `L${aiBot.x},${aiBot.y}`,
+      `L${aiBot.x},${branchY2}`,
+      `L${toolTop[1].x},${branchY2}`,
+      `L${toolTop[1].x},${toolTop[1].y}`,
+      `L${toolBot[1].x},${toolBot[1].y}`,
+      `L${toolBot[1].x},${convergeY2}`,
+      `L${progTop.x},${convergeY2}`,
+      `L${progTop.x},${progTop.y}`,
+    ].join(' ')
+
+    // ── Phase 1: Project bottom → branch ──
+    segments.push({ path: `M${projBot.x},${projBot.y}L${projBot.x},${branchY1}`, start: 0, end: 600 })
+
+    // ── Phase 2: Branch → top of each AI model ──
+    segments.push({ path: `M${projBot.x},${branchY1}L${modTop[0].x},${branchY1}L${modTop[0].x},${modTop[0].y}`, start: 600, end: 1200 })
+    segments.push({ path: `M${projBot.x},${branchY1}L${modTop[1].x},${branchY1}L${modTop[1].x},${modTop[1].y}`, start: 750, end: 1350 })
+    segments.push({ path: `M${projBot.x},${branchY1}L${modTop[2].x},${branchY1}L${modTop[2].x},${modTop[2].y}`, start: 900, end: 1500 })
+
+    // ── Phase 3: Bottom of each AI model → converge → top of AiConnect ──
+    segments.push({ path: `M${modBot[0].x},${modBot[0].y}L${modBot[0].x},${convergeY1}L${aiTop.x},${convergeY1}`, start: 1500, end: 2200 })
+    segments.push({ path: `M${modBot[1].x},${modBot[1].y}L${modBot[1].x},${convergeY1}L${aiTop.x},${convergeY1}`, start: 1500, end: 2200 })
+    segments.push({ path: `M${modBot[2].x},${modBot[2].y}L${modBot[2].x},${convergeY1}L${aiTop.x},${convergeY1}`, start: 1500, end: 2200 })
+    segments.push({ path: `M${aiTop.x},${convergeY1}L${aiTop.x},${aiTop.y}`, start: 2000, end: 2200 })
+
+    // ── Phase 4: AiConnect bottom → branch ──
+    segments.push({ path: `M${aiBot.x},${aiBot.y}L${aiBot.x},${branchY2}`, start: 2200, end: 2800 })
+
+    // ── Phase 5: Branch → top of each tool ──
+    segments.push({ path: `M${aiBot.x},${branchY2}L${toolTop[0].x},${branchY2}L${toolTop[0].x},${toolTop[0].y}`, start: 2200, end: 2800 })
+    segments.push({ path: `M${aiBot.x},${branchY2}L${toolTop[1].x},${branchY2}L${toolTop[1].x},${toolTop[1].y}`, start: 2350, end: 2950 })
+    segments.push({ path: `M${aiBot.x},${branchY2}L${toolTop[2].x},${branchY2}L${toolTop[2].x},${toolTop[2].y}`, start: 2500, end: 3100 })
+
+    // ── Phase 6: Bottom of each tool → converge → top of Progress ──
+    segments.push({ path: `M${toolBot[0].x},${toolBot[0].y}L${toolBot[0].x},${convergeY2}L${progTop.x},${convergeY2}`, start: 3100, end: 3800 })
+    segments.push({ path: `M${toolBot[1].x},${toolBot[1].y}L${toolBot[1].x},${convergeY2}L${progTop.x},${convergeY2}`, start: 3100, end: 3800 })
+    segments.push({ path: `M${toolBot[2].x},${toolBot[2].y}L${toolBot[2].x},${convergeY2}L${progTop.x},${convergeY2}`, start: 3100, end: 3800 })
+    segments.push({ path: `M${progTop.x},${convergeY2}L${progTop.x},${progTop.y}`, start: 3600, end: 3800 })
+
+    return [{ path: fullD, start: 0, end: CYCLE }, ...segments.slice(1)]
+  }
+
+  const segments = measured ? buildSegments() : []
+  segmentsRef.current = segments
+
+  const fullPathD = segments.length > 0 ? segments[0].path : ''
+
+  const nodeStyle = (id: string, primary = false): React.CSSProperties => {
+    const active = activeNodes.has(id)
+    if (active) {
+      return primary
+        ? { borderColor: '#3b82f6', background: NODE_BG, boxShadow: '0 0 28px -2px rgba(59,130,246,0.55)' }
+        : { borderColor: 'rgba(59,130,246,0.55)', background: NODE_BG, boxShadow: '0 0 18px -2px rgba(59,130,246,0.35)' }
+    }
+    return primary
+      ? { borderColor: 'rgba(255,255,255,0.15)', background: NODE_BG, boxShadow: '0 4px 24px rgba(0,0,0,0.6)' }
+      : { borderColor: 'rgba(255,255,255,0.15)', background: NODE_BG, boxShadow: '0 4px 24px rgba(0,0,0,0.6)' }
+  }
+
   return (
-    <div className="mx-auto mt-14 max-w-2xl text-center">
-      <div className="inline-block"><Node label="PROJECT" primary /></div>
-      <Connector delay={100} />
-      <div className="flex flex-wrap items-center justify-center gap-4">
-        {models.slice(0, 3).map((m) => (
-          <Node key={m.name} label={m.name} />
-        ))}
+    <div ref={containerRef} className="relative mx-auto mt-14 max-w-2xl text-center">
+      {/* Ambient glow behind the flowchart */}
+      <div
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        style={{
+          width: '120%',
+          height: '120%',
+          background: 'radial-gradient(ellipse at center, rgba(59,130,246,0.08) 0%, rgba(59,130,246,0.03) 40%, transparent 70%)',
+          filter: 'blur(40px)',
+          zIndex: 0,
+        }}
+      />
+      {measured && w > 0 && h > 0 && (
+        <svg viewBox={`0 0 ${w} ${h}`} width={w} height={h} className="pointer-events-none absolute inset-0" preserveAspectRatio="none" style={{ zIndex: 0 }} aria-hidden>
+          <defs>
+            <filter id="vp-glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+            <radialGradient id="vp-grad">
+              <stop offset="0%" stopColor="#93c5fd" />
+              <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.2" />
+            </radialGradient>
+          </defs>
+
+          {segments.slice(1).map((seg, i) => (
+            <path key={`bg-${i}`} d={seg.path} stroke={ACCENT} strokeWidth="1" strokeLinecap="round" fill="none" opacity="0.1" />
+          ))}
+          {segments.slice(1).map((seg, i) => (
+            <path key={`fg-${i}`} ref={(el) => { pathRefs.current[i] = el }} d={seg.path} stroke={ACCENT} strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.45" strokeDasharray="6 6" style={{ animation: 'dash-flow 1.2s linear infinite' }} />
+          ))}
+          {fullPathD && packetPos && packetOpacity > 0 && (
+            <g style={{ opacity: packetOpacity }}>
+              <circle cx={packetPos.x} cy={packetPos.y} r="8" fill="url(#vp-grad)" opacity="0.3" filter="url(#vp-glow)" />
+              <circle cx={packetPos.x} cy={packetPos.y} r="3" fill="#93c5fd" opacity="0.85" />
+              <circle cx={packetPos.x} cy={packetPos.y} r="1.5" fill="#dbeafe" opacity="1" />
+            </g>
+          )}
+        </svg>
+      )}
+
+      <div className="relative" style={{ zIndex: 1 }}>
+        <div className="inline-block" ref={projectRef}>
+          <div className="rounded-2xl border-2 px-6 py-3.5 text-[15px] font-bold tracking-wide shadow-lg transition-all duration-300 hover:scale-105" style={nodeStyle('project', true)}>PROJECT</div>
+        </div>
+        <div className="mx-auto my-1.5 h-5" />
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          {models.slice(0, 3).map((m, i) => (
+            <div key={m.name} ref={modelRefs[i]}>
+              <div className="rounded-2xl border-2 px-6 py-3.5 text-[15px] font-bold tracking-wide shadow-lg transition-all duration-300 hover:scale-105" style={nodeStyle(`model-${i}`)}>{m.name}</div>
+            </div>
+          ))}
+        </div>
+        <div className="mx-auto my-1.5 h-5" />
+        <div className="inline-flex items-center gap-2.5 rounded-2xl border-2 px-7 py-3.5 shadow-lg transition-all duration-300" ref={aiconnectRef} style={nodeStyle('aiconnect')}>
+          <BrandMark size={24} />
+        </div>
+        <div className="mx-auto my-1.5 h-5" />
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          {['Revit', 'QGIS', 'Excel'].map((label, i) => (
+            <div key={label} ref={toolRefs[i]}>
+              <div className="rounded-2xl border-2 px-6 py-3.5 text-[15px] font-bold tracking-wide shadow-lg transition-all duration-300 hover:scale-105" style={nodeStyle(`tool-${i}`)}>{label}</div>
+            </div>
+          ))}
+        </div>
+        <div className="mx-auto my-1.5 h-5" />
+        <div className="inline-block" ref={progressRef}>
+          <div className="rounded-2xl border-2 px-6 py-3.5 text-[15px] font-bold tracking-wide shadow-lg transition-all duration-300 hover:scale-105" style={nodeStyle('progress', true)}>Progress</div>
+        </div>
       </div>
-      <Connector delay={300} />
-      <div className="inline-flex items-center gap-2.5 rounded-2xl border-2 px-7 py-3.5 shadow-lg" style={{ borderColor: `${ACCENT}88`, background: `${ACCENT}18`, boxShadow: `0 0 28px -4px ${ACCENT}50` }}>
-        <BrandMark size={24} />
-      </div>
-      <Connector delay={500} />
-      <div className="flex flex-wrap items-center justify-center gap-4">
-        <Node label="Revit" />
-        <Node label="QGIS" />
-        <Node label="Excel" />
-      </div>
-      <Connector delay={700} />
-      <div className="inline-block"><Node label="Progress" primary /></div>
     </div>
   )
 }
