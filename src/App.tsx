@@ -41,6 +41,13 @@ export default function App() {
 
   return (
     <div id="top" className="relative min-h-screen bg-ink text-text">
+      {/* ambient blue orbs — fixed backdrop, content scrolls above */}
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+        <div className="absolute -top-40 -left-40 h-[600px] w-[600px] rounded-full bg-[#3b82f6] opacity-[0.13] blur-[140px]" />
+        <div className="absolute top-[8%] right-[-12rem] h-[560px] w-[560px] rounded-full bg-[#3b82f6] opacity-[0.1] blur-[140px]" />
+        <div className="absolute top-[45%] left-[-14rem] h-[520px] w-[520px] rounded-full bg-[#3b82f6] opacity-[0.07] blur-[150px]" />
+        <div className="absolute right-[-10rem] bottom-[-12rem] h-[560px] w-[560px] rounded-full bg-[#3b82f6] opacity-[0.08] blur-[150px]" />
+      </div>
       <div className="relative z-10">
         <Header />
         <main>
