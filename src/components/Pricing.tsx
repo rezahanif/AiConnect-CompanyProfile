@@ -10,7 +10,7 @@ export function Pricing() {
           Simple pricing, no surprises.
         </h2>
         <p className="mx-auto mt-5 max-w-xl text-[17px] leading-relaxed text-center text-muted">
-          Everything included. Start with a 3-day free trial.
+          Everything included. Start with a 2-week free trial.
         </p>
       </div>
 
@@ -21,7 +21,7 @@ export function Pricing() {
               AiConnect Pro
             </span>
             <span className="rounded-full bg-violet/15 px-3 py-1 font-mono text-[10px] text-violet-bright">
-              3 days trial
+              2 weeks trial
             </span>
           </div>
           <div className="mt-6 flex items-end gap-1.5">

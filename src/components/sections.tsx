@@ -254,11 +254,13 @@ function ModelRowVisual() {
 
 /* Feature 3 — connectors ----------------------------------------------- */
 
+const CONNECTOR_GRID_HIDE = new Set(['ArcGIS', 'AutoCAD', 'SketchUp', 'Metashape'])
+
 function ConnectorGridVisual() {
   return (
     <div className="rounded-2xl border border-hairline bg-surface/70 p-5 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9)]">
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-        {ecosystem.map((e, i) => (
+{ecosystem.filter((e) => !CONNECTOR_GRID_HIDE.has(e.label)).map((e, i) => (
           <div
             key={e.label}
             className="group connector-card flex items-center gap-3 rounded-xl border border-hairline bg-white/[0.02] px-3.5 py-3 transition-all duration-200 hover:border-violet/40 hover:bg-white/[0.05]"
