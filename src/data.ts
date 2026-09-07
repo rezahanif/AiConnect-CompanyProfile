@@ -9,6 +9,7 @@ export const ecosystem = [
   { label: 'SAP2000', glyph: 'Sp', tint: 'linear-gradient(135deg,#7c5cff,#472fa8)', logo: '/logos/logo-sap.png' },
   { label: 'Metashape', glyph: 'Ms', tint: 'linear-gradient(135deg,#26c6da,#0d7d8c)', logo: '/logos/logo-metashape.png' },
   { label: 'MS Project', glyph: 'Of', tint: 'linear-gradient(135deg,#e8663a,#a33d1a)', logo: '/logos/logo-msproject.png' },
+  { label: 'Ansys', glyph: 'An', tint: 'linear-gradient(135deg,#c5283d,#7a1a28)', logo: '/logos/logo-ansys.png' },
 ]
 
 export const models = [
