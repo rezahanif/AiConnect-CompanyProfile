@@ -49,10 +49,17 @@ test('detectArchitecture: arm64 / x64 / unknown', () => {
   assert.equal(detectArchitecture('Mozilla/5.0 (X11; FreeBSD)'), undefined)
 })
 
-test('StaticReleaseProvider: metadata without download URLs', async () => {
+test('StaticReleaseProvider: windows has a download URL, others do not', async () => {
   const releases = await new StaticReleaseProvider().getReleases()
   assert.equal(releases.length, 3)
-  assert.ok(releases.every((r) => r.downloadUrl === undefined))
+  const windows = releases.find((r) => r.platform === 'windows')
+  assert.equal(
+    windows?.downloadUrl,
+    'https://github.com/rezahanif/AICONNECT-RELEASE/releases/latest/download/AiConnect-Setup.exe',
+  )
+  assert.ok(
+    releases.filter((r) => r.platform !== 'windows').every((r) => r.downloadUrl === undefined),
+  )
   assert.equal(latestVersion(releases), '0.1.0')
   assert.deepEqual(
     releases.map((r) => r.platform).sort(),

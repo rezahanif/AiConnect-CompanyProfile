@@ -25,12 +25,20 @@ pnpm build
 
 Single source of truth: `src/releases.ts` → `STATIC_RELEASES`.
 
-- Metadata-only fixture: version `0.1.0`, no `downloadUrl`.
-- Until a real artifact exists, the UI shows the unavailable state
-  ("X release currently unavailable") + installation instructions.
-  That is intentional — never fabricate a download URL.
-- When a real artifact lands, add `downloadUrl` (+ `sizeBytes`,
-  `checksum` if desired) to the matching `STATIC_RELEASES` entry.
+- Metadata-only fixture: version `0.1.0`.
+- macOS and Linux have no `downloadUrl` — no artifacts exist for those
+  platforms yet, so the UI shows the unavailable state ("X release
+  currently unavailable") + installation instructions. That is
+  intentional — never fabricate a download URL.
+- Windows now points at the GitHub Releases "latest" redirect for the
+  `rezahanif/AICONNECT-RELEASE` repo:
+  `https://github.com/rezahanif/AICONNECT-RELEASE/releases/latest/download/AiConnect-Setup.exe`.
+  This URL is stable in advance of publishing — it 404s until a release
+  tag with an `AiConnect-Setup.exe` asset is published there, and starts
+  working the instant one is, with **no code change needed on this side**.
+- When a real artifact lands (for any platform), add `downloadUrl`
+  (+ `sizeBytes`, `checksum` if desired) to the matching
+  `STATIC_RELEASES` entry.
 - Checksum/signature values in this file are display-only; the browser
   is never the artifact security authority.
 
