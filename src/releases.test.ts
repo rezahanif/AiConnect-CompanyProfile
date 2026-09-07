@@ -51,7 +51,7 @@ test('detectArchitecture: arm64 / x64 / unknown', () => {
 
 test('StaticReleaseProvider: windows has a download URL, others do not', async () => {
   const releases = await new StaticReleaseProvider().getReleases()
-  assert.equal(releases.length, 3)
+  assert.equal(releases.length, 2)
   const windows = releases.find((r) => r.platform === 'windows')
   assert.equal(
     windows?.downloadUrl,
@@ -60,16 +60,16 @@ test('StaticReleaseProvider: windows has a download URL, others do not', async (
   assert.ok(
     releases.filter((r) => r.platform !== 'windows').every((r) => r.downloadUrl === undefined),
   )
-  assert.equal(latestVersion(releases), '0.1.0')
+  assert.equal(latestVersion(releases), '1.0.0')
   assert.deepEqual(
     releases.map((r) => r.platform).sort(),
-    ['linux', 'macos', 'windows'],
+    ['linux', 'windows'],
   )
 })
 
 test('StaticReleaseProvider: recommended per platform', async () => {
   const p = new StaticReleaseProvider()
-  assert.equal((await p.getRecommendedRelease('macos'))?.platform, 'macos')
+  assert.equal((await p.getRecommendedRelease('windows'))?.platform, 'windows')
   assert.equal((await p.getRecommendedRelease('linux'))?.platform, 'linux')
   assert.equal(await p.getRecommendedRelease(null), null)
 })

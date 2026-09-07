@@ -1,4 +1,3 @@
-import { motion } from 'motion/react'
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import logoUrl from '../assets/logo.webp'
 
@@ -105,95 +104,41 @@ export function DownloadButton({
   onSelect?: () => void
 }) {
   const Icon = os === 'macOS' ? IconApple : os === 'Windows' ? IconWindows : IconLinux
-  const [hover, setHover] = useState(false)
   const base =
-    'group inline-flex items-center gap-2.5 rounded-xl px-5 py-3 text-[15px] font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet/70'
+    'group inline-flex items-center justify-center gap-2.5 rounded-xl px-5 py-3 text-[15px] font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet/70'
   const ariaLabel = `Download AiConnect for ${os}`
+  const href = release?.downloadUrl ?? '#install'
+  const isPrimary = variant === 'primary' || selected
 
-  if (state === 'loading') {
-    return (
-      <span
-        aria-busy="true"
-        aria-label={`Checking releases for ${os}`}
-        className={`${base} border border-hairline bg-white/[0.02] text-muted opacity-70`}
-      >
-        <Icon className="h-[18px] w-[18px]" />
-        Checking for {os}…
-      </span>
-    )
-  }
-
-  if (state === 'unavailable' || state === 'error') {
-    return (
-      <span
-        aria-disabled="true"
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        onFocus={() => setHover(true)}
-        onBlur={() => setHover(false)}
-        className={`${base} group cursor-default border border-hairline bg-white/[0.02] text-muted`}
-      >
-        <Icon className="h-6 w-6 shrink-0" />
-        <span className="flex flex-col items-start leading-tight">
-          <span className="whitespace-nowrap">{os} release currently unavailable</span>
-          <motion.span
-            initial={false}
-            animate={hover ? 'show' : 'hide'}
-            variants={{
-              hide: { opacity: 0, height: 0 },
-              show: { opacity: 1, height: 'auto' },
-            }}
-            transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="overflow-hidden"
-          >
-            <a
-              href="#install"
-              onClick={onSelect}
-              tabIndex={hover ? 0 : -1}
-              className="whitespace-nowrap text-[12px] font-medium text-violet-bright underline underline-offset-2 hover:text-text"
-            >
-              View installation instructions
-            </a>
-          </motion.span>
-        </span>
-      </span>
-    )
-  }
-
-  const primary = variant === 'primary' || selected
-  if (primary) {
-    return (
-      <a
-        href={release?.downloadUrl ?? '#download'}
-        aria-label={ariaLabel}
-        onClick={onSelect}
-        className={`${base} btn-glow text-white hover:-translate-y-0.5`}
-        style={{ background: 'linear-gradient(135deg,#3b82f6,#3b82f6)' }}
-      >
-        <Icon className="h-[18px] w-[18px]" />
-        <span className="flex flex-col items-start leading-tight">
-          <span>Download for {os}</span>
-          <span className="font-mono text-[10px] font-normal opacity-80">
-            {release?.version ? `v${release.version}` : ''}
-            {archLine ? ` · ${archLine}` : ''}
-          </span>
-        </span>
-      </a>
-    )
-  }
   return (
     <a
-      href={release?.downloadUrl ?? '#download'}
+      href={href}
       aria-label={ariaLabel}
       onClick={onSelect}
-      className={`${base} border border-hairline bg-white/[0.03] text-text hover:-translate-y-0.5 hover:border-violet/50 hover:bg-white/[0.06]`}
+      title={
+        release?.downloadUrl
+          ? `Download AiConnect for ${os}`
+          : `${os} release — view installation instructions`
+      }
+      className={
+        isPrimary
+          ? `${base} btn-glow text-white hover:-translate-y-0.5`
+          : `${base} border border-hairline bg-white/[0.03] text-text hover:-translate-y-0.5 hover:border-violet/50 hover:bg-white/[0.06]`
+      }
+      style={isPrimary ? { background: 'linear-gradient(135deg,#3b82f6,#3b82f6)' } : undefined}
     >
-      <Icon className="h-[18px] w-[18px] text-muted transition-colors group-hover:text-violet-bright" />
+      <Icon
+        className={`h-[18px] w-[18px] shrink-0 ${
+          isPrimary ? 'text-white' : 'text-muted transition-colors group-hover:text-violet-bright'
+        }`}
+      />
       <span className="flex flex-col items-start leading-tight">
         <span>Download for {os}</span>
-        <span className="font-mono text-[10px] font-normal text-muted">
-          {release?.version ? `v${release.version}` : ''}
-        </span>
+        {release?.version && (
+          <span className={`font-mono text-[10px] font-normal ${isPrimary ? 'opacity-80' : 'text-muted'}`}>
+            v{release.version}
+          </span>
+        )}
       </span>
     </a>
   )

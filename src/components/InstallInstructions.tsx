@@ -8,11 +8,6 @@ const STEPS: { platform: PlatformName; steps: string[]; note: string }[] = [
     note: 'Installation steps may vary slightly by release format.',
   },
   {
-    platform: 'macos',
-    steps: ['Download the application', 'Open the downloaded image/application as appropriate', 'Install the application', 'Launch AiConnect'],
-    note: 'Installation steps may vary slightly by release format.',
-  },
-  {
     platform: 'linux',
     steps: ['Await the first stable Linux package from the release pipeline', 'Install using the documented package format', 'Launch AiConnect'],
     note: 'The Linux package format is not finalized yet. We will not claim a format until the release pipeline publishes one.',
@@ -31,7 +26,7 @@ export function InstallInstructions() {
           Choose your platform for step-by-step installation. Packaging
           details may be updated before the first stable release.
         </p>
-        <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3 text-left">
+        <div className="mx-auto mt-12 grid max-w-4xl grid-cols-1 gap-5 md:grid-cols-2 text-left">
           {STEPS.map((s) => (
             <div key={s.platform} className="flex h-full flex-col rounded-2xl border border-hairline bg-surface/70 p-6">
               <h3 className="font-mono text-[12px] uppercase tracking-[0.18em] text-violet-bright">

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import {
+  STATIC_RELEASES,
   archLabel,
   detectArchitecture,
   detectPlatform,
@@ -20,16 +21,15 @@ const OS_BY_PLATFORM: Record<PlatformName, OS> = {
   macos: 'macOS',
   linux: 'Linux',
 }
-const PLATFORM_ORDER: PlatformName[] = ['macos', 'windows', 'linux']
+const PLATFORM_ORDER: PlatformName[] = ['windows', 'linux']
 
 export function useReleases() {
-  const [status, setStatus] = useState<DownloadStatus>('loading')
-  const [releases, setReleases] = useState<ReleaseInfo[]>([])
+  const [status, setStatus] = useState<DownloadStatus>('ready')
+  const [releases, setReleases] = useState<ReleaseInfo[]>(STATIC_RELEASES)
   const [reloadKey, setReloadKey] = useState(0)
 
   useEffect(() => {
     let cancelled = false
-    setStatus('loading')
     releaseProvider
       .getReleases()
       .then((r) => {
@@ -58,7 +58,8 @@ export function DownloadPicker({ showVersion = false }: { showVersion?: boolean 
     [],
   )
   const arch = useMemo(() => detectArchitecture(navigator.userAgent), [])
-  const active = selected ?? detected
+  const validDetected = detected && PLATFORM_ORDER.includes(detected) ? detected : null
+  const active = selected ?? validDetected ?? 'windows'
 
   const version = latestVersion(releases)
   const archLine = archLabel(arch)
@@ -81,25 +82,19 @@ export function DownloadPicker({ showVersion = false }: { showVersion?: boolean 
     )
   }
 
-  const loading = status === 'loading'
-
   return (
     <div className="mt-9">
-      {active && (
+      {validDetected && (
         <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-violet-bright">
-          {selected && selected !== detected
-            ? `You selected ${platformLabel(selected)} · ${platformLabel(detected!)} detected on this device`
+          {selected && selected !== validDetected
+            ? `You selected ${platformLabel(selected)} · ${platformLabel(validDetected)} detected on this device`
             : 'Recommended for your device'}
         </p>
       )}
-      <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+      <div className="mx-auto flex max-w-xs flex-col items-stretch justify-center gap-3 sm:max-w-none sm:flex-row sm:items-center">
         {PLATFORM_ORDER.map((p) => {
-          const release = loading ? undefined : releaseForPlatform(releases, p)
-          const state = loading
-            ? 'loading'
-            : isAvailable(release)
-              ? 'available'
-              : 'unavailable'
+          const release = releaseForPlatform(releases, p)
+          const state = isAvailable(release) ? 'available' : 'unavailable'
           return (
             <DownloadButton
               key={p}
@@ -114,18 +109,15 @@ export function DownloadPicker({ showVersion = false }: { showVersion?: boolean 
           )
         })}
       </div>
-      {version && (
-        <p className="mt-4 font-mono text-[12px] text-muted">
-          Latest version · {version}
-          {showVersion && <span className="mx-2 text-hairline">|</span>}
-          {showVersion && '2 weeks trial · Windows, macOS & Linux'}
-        </p>
-      )}
-      {!version && (
-        <p className="mt-4 font-mono text-[12px] text-muted">
-          2 weeks trial · Windows, macOS &amp; Linux
-        </p>
-      )}
+      <p className="mt-4 font-mono text-[12px] text-muted">
+        {version && (
+          <>
+            Latest version · {version}
+            <span className="mx-2 text-hairline">|</span>
+          </>
+        )}
+        2 weeks trial · Windows &amp; Linux
+      </p>
     </div>
   )
 }

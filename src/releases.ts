@@ -31,17 +31,16 @@ export interface ReleaseProvider {
 /* TEMPORARY / STATIC FALLBACK — metadata only. downloadUrl intentionally
  * undefined until a real artifact exists: the UI must render the
  * unavailable state instead of a fake download link. */
-const STATIC_RELEASES: ReleaseInfo[] = [
+export const STATIC_RELEASES: ReleaseInfo[] = [
   {
-    version: '0.1.0',
-    releaseDate: '2026-08-13',
+    version: '1.0.0',
+    releaseDate: '2026-09-07',
     platform: 'windows',
     architecture: 'x64',
     downloadUrl:
       'https://github.com/rezahanif/AICONNECT-RELEASE/releases/latest/download/AiConnect-Setup.exe',
   },
-  { version: '0.1.0', releaseDate: '2026-08-13', platform: 'macos', architecture: 'x64' },
-  { version: '0.1.0', releaseDate: '2026-08-13', platform: 'linux', architecture: 'x64' },
+  { version: '1.0.0', releaseDate: '2026-09-07', platform: 'linux', architecture: 'x64' },
 ]
 
 export class StaticReleaseProvider implements ReleaseProvider {
