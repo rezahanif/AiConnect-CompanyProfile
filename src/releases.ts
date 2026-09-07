@@ -40,7 +40,6 @@ export const STATIC_RELEASES: ReleaseInfo[] = [
     downloadUrl:
       'https://github.com/rezahanif/AICONNECT-RELEASE/releases/latest/download/AiConnect-Setup.exe',
   },
-  { version: '1.0.0', releaseDate: '2026-09-07', platform: 'linux', architecture: 'x64' },
 ]
 
 export class StaticReleaseProvider implements ReleaseProvider {

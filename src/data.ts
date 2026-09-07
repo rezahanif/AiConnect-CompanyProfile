@@ -43,7 +43,7 @@ export const pricingIncludes = [
   'Project context that persists across AI models',
   'Reusable workflows for repeatable tasks',
   'Step-by-step connector guides',
-  'Windows & Linux app',
+  'Windows desktop app',
 ]
 
 export const footerCols: { title: string; links: { label: string; href: string }[] }[] = [

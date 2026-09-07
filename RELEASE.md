@@ -26,8 +26,7 @@ pnpm build
 Single source of truth: `src/releases.ts` → `STATIC_RELEASES`.
 
 - Fixture version: `1.0.0`.
-- macOS has been removed from site downloads.
-- Linux has no `downloadUrl` yet — the UI links to installation instructions.
+- macOS and Linux have been removed from site downloads; Windows is currently supported.
 - Windows now points at the GitHub Releases "latest" redirect for the
   `rezahanif/AICONNECT-RELEASE` repo:
   `https://github.com/rezahanif/AICONNECT-RELEASE/releases/latest/download/AiConnect-Setup.exe`.

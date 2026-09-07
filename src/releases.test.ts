@@ -49,28 +49,24 @@ test('detectArchitecture: arm64 / x64 / unknown', () => {
   assert.equal(detectArchitecture('Mozilla/5.0 (X11; FreeBSD)'), undefined)
 })
 
-test('StaticReleaseProvider: windows has a download URL, others do not', async () => {
+test('StaticReleaseProvider: windows has a download URL', async () => {
   const releases = await new StaticReleaseProvider().getReleases()
-  assert.equal(releases.length, 2)
+  assert.equal(releases.length, 1)
   const windows = releases.find((r) => r.platform === 'windows')
   assert.equal(
     windows?.downloadUrl,
     'https://github.com/rezahanif/AICONNECT-RELEASE/releases/latest/download/AiConnect-Setup.exe',
   )
-  assert.ok(
-    releases.filter((r) => r.platform !== 'windows').every((r) => r.downloadUrl === undefined),
-  )
   assert.equal(latestVersion(releases), '1.0.0')
   assert.deepEqual(
-    releases.map((r) => r.platform).sort(),
-    ['linux', 'windows'],
+    releases.map((r) => r.platform),
+    ['windows'],
   )
 })
 
 test('StaticReleaseProvider: recommended per platform', async () => {
   const p = new StaticReleaseProvider()
   assert.equal((await p.getRecommendedRelease('windows'))?.platform, 'windows')
-  assert.equal((await p.getRecommendedRelease('linux'))?.platform, 'linux')
   assert.equal(await p.getRecommendedRelease(null), null)
 })
 
