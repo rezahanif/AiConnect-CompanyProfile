@@ -3,8 +3,8 @@
  *
  * The UI must never know whether releases come from a static fixture,
  * an HTTP API, a CDN, or a marketplace. Everything goes through
- * `ReleaseProvider`; swap `releaseProvider` below when the real
- * download API contract exists (see RELEASE.md).
+ * `ReleaseProvider`; `releaseProvider` below is a `GitHubReleaseProvider`
+ * reading the live GitHub Releases API (see RELEASE.md).
  *
  * Platform detection here is advisory UX state — never security
  * authority. Artifact identity, checksums, and signatures belong to
@@ -28,9 +28,9 @@ export interface ReleaseProvider {
   getRecommendedRelease(platform: PlatformName | null): Promise<ReleaseInfo | null>
 }
 
-/* TEMPORARY / STATIC FALLBACK — metadata only. downloadUrl intentionally
- * undefined until a real artifact exists: the UI must render the
- * unavailable state instead of a fake download link. */
+/* Initial-paint seed only — shown for the instant before GitHubReleaseProvider's
+ * fetch resolves, then immediately superseded. Never the download-time source of
+ * truth, so a stale filename here can't reintroduce the 404 class of bug. */
 export const STATIC_RELEASES: ReleaseInfo[] = [
   {
     version: '1.0.0',
@@ -38,7 +38,9 @@ export const STATIC_RELEASES: ReleaseInfo[] = [
     platform: 'windows',
     architecture: 'x64',
     downloadUrl:
-      'https://github.com/rezahanif/AICONNECT-RELEASE/releases/latest/download/AiConnect-Setup.exe',
+      'https://github.com/rezahanif/AICONNECT-RELEASE/releases/latest/download/AI.CONNECT_1.0.0_x64-setup.exe',
+    sizeBytes: 6073714,
+    checksum: 'sha256:7fda654bc633ec45809e6e323ccb637e0b0c7ecab4311e0d9bea9eec7d20b317',
   },
 ]
 
@@ -56,8 +58,43 @@ export class StaticReleaseProvider implements ReleaseProvider {
   }
 }
 
-/* TEMPORARY — replace with MarketplaceReleaseProvider here only. */
-export const releaseProvider: ReleaseProvider = new StaticReleaseProvider()
+const GITHUB_RELEASE_REPO = 'rezahanif/AICONNECT-RELEASE'
+
+/** Live GitHub Releases API — the actual source of truth for version/downloadUrl,
+ * so a published release's real asset filename is always what ships to users. */
+export class GitHubReleaseProvider implements ReleaseProvider {
+  constructor(private repo: string = GITHUB_RELEASE_REPO) {}
+
+  async getReleases(): Promise<ReleaseInfo[]> {
+    const res = await fetch(`https://api.github.com/repos/${this.repo}/releases/latest`, {
+      headers: { Accept: 'application/vnd.github+json' },
+    })
+    if (!res.ok) throw new Error(`GitHub releases fetch failed: ${res.status}`)
+    const data = await res.json()
+
+    const asset = (data.assets ?? []).find((a: { name: string }) => /\.exe$/i.test(a.name))
+    if (!asset) throw new Error('Latest GitHub release has no Windows .exe asset')
+
+    const release: ReleaseInfo = {
+      version: String(data.tag_name ?? '').replace(/^v/, '') || 'unknown',
+      releaseDate: typeof data.published_at === 'string' ? data.published_at.slice(0, 10) : undefined,
+      platform: 'windows',
+      architecture: /arm64|aarch64/i.test(asset.name) ? 'arm64' : 'x64',
+      downloadUrl: asset.browser_download_url,
+      sizeBytes: asset.size,
+      checksum: asset.digest,
+    }
+    return [release]
+  }
+
+  async getRecommendedRelease(platform: PlatformName | null): Promise<ReleaseInfo | null> {
+    if (!platform) return null
+    const releases = await this.getReleases()
+    return releases.find((r) => r.platform === platform) ?? null
+  }
+}
+
+export const releaseProvider: ReleaseProvider = new GitHubReleaseProvider()
 
 /* --- platform detection (advisory UX only) ---------------------------- */
 
