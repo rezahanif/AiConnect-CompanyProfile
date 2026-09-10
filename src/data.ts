@@ -1,6 +1,7 @@
 export const nav = ['Product', 'Connectors', 'Skills', 'Guides', 'Pricing']
 
 export const ecosystem = [
+  { label: 'Abaqus', glyph: 'Ab', tint: 'linear-gradient(135deg,#607d8b,#37474f)', logo: '/logos/logo-abaqus.png' },
   { label: 'Revit', glyph: 'Rv', tint: 'linear-gradient(135deg,#3a86ff,#1b4fb0)', logo: '/logos/logo-revit.png' },
   { label: 'AutoCAD', glyph: 'Ac', tint: 'linear-gradient(135deg,#e04b4b,#8a1f1f)', logo: '/logos/logo-autocad.png' },
   { label: 'QGIS', glyph: 'Qg', tint: 'linear-gradient(135deg,#3ec46d,#1f7a45)', logo: '/logos/logo-qgis.png' },
@@ -9,7 +10,6 @@ export const ecosystem = [
   { label: 'SAP2000', glyph: 'Sp', tint: 'linear-gradient(135deg,#7c5cff,#472fa8)', logo: '/logos/logo-sap.png' },
   { label: 'Metashape', glyph: 'Ms', tint: 'linear-gradient(135deg,#26c6da,#0d7d8c)', logo: '/logos/logo-metashape.png' },
   { label: 'MS Project', glyph: 'Of', tint: 'linear-gradient(135deg,#e8663a,#a33d1a)', logo: '/logos/logo-msproject.png' },
-  { label: 'Abaqus', glyph: 'Ab', tint: 'linear-gradient(135deg,#607d8b,#37474f)', logo: '/logos/logo-abaqus.png' },
 ]
 
 export const models = [
@@ -50,7 +50,7 @@ export const footerCols: { title: string; links: { label: string; href: string }
   {
     title: 'Product',
     links: [
-      { label: 'Download', href: '#download' },
+      { label: 'Download', href: '#get-download' },
       { label: 'Connectors', href: '#connectors' },
       { label: 'Skills', href: '#skills' },
       { label: 'Guides', href: '#guides' },

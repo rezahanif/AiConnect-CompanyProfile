@@ -1,9 +1,22 @@
-import { useEffect, useState } from 'react'
-import { nav } from '../data'
-import { BrandMark } from './ui'
+import { useState } from 'react'
+import logoUrl from '../assets/logo.webp'
 
-/** Home-aware anchor prefix: on legal pages (no home sections present) the
- * header links must point back at the home page anchors. */
+const nav = ['Connectors', 'Skills', 'Guides', 'Pricing']
+
+export function BrandMark({ size = 42 }: { size?: number }) {
+  return (
+    <span className="inline-flex select-none">
+      <img
+        src={logoUrl}
+        alt="AiConnect"
+        style={{ height: size }}
+        className="w-auto"
+        draggable={false}
+      />
+    </span>
+  )
+}
+
 const home = ['', '/', '/index.html'].includes(
   window.location.pathname.split('?')[0].split('#')[0].replace(/\/$/, '') || '/',
 )
@@ -11,22 +24,9 @@ const anchor = (suffix: string) => (home ? suffix : `/${suffix}`)
 
 export function Header() {
   const [open, setOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'border-b border-hairline bg-ink/80 backdrop-blur-xl'
-          : 'border-b border-transparent'
-      }`}
-    >
+    <header className="fixed inset-x-0 top-0 z-50 bg-transparent">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-5 md:px-8">
         <a href={home ? '#top' : '/'} aria-label="AiConnect home">
           <BrandMark size={42} />
@@ -44,9 +44,9 @@ export function Header() {
         </nav>
         <div className="hidden items-center gap-3 md:flex">
           <a
-            href={anchor('#download')}
+            href={anchor('#get-download')}
             className="rounded-xl px-4 py-2 text-[14px] font-semibold text-white shadow-[0_8px_28px_-10px_rgba(59,130,246,0.35)] transition-transform hover:-translate-y-0.5"
-            style={{ background: 'linear-gradient(135deg,#3b82f6,#3b82f6)' }}
+            style={{ background: 'linear-gradient(135deg,#3b82f6,#2563eb)' }}
           >
             Download
           </a>
@@ -65,7 +65,7 @@ export function Header() {
         </button>
       </div>
       {open && (
-        <div className="border-t border-hairline bg-ink/95 px-5 py-4 backdrop-blur-xl md:hidden">
+        <div className="border-t border-hairline bg-[#06080d]/95 px-5 py-4 backdrop-blur-xl md:hidden">
           <div className="flex flex-col gap-1">
             {nav.map((n) => (
               <a
@@ -78,10 +78,10 @@ export function Header() {
               </a>
             ))}
             <a
-              href={anchor('#download')}
+              href={anchor('#get-download')}
               onClick={() => setOpen(false)}
               className="mt-2 rounded-xl px-4 py-3 text-center text-[15px] font-semibold text-white"
-              style={{ background: 'linear-gradient(135deg,#3b82f6,#3b82f6)' }}
+              style={{ background: 'linear-gradient(135deg,#3b82f6,#2563eb)' }}
             >
               Download
             </a>
