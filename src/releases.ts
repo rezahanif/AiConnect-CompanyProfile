@@ -63,7 +63,11 @@ const GITHUB_RELEASE_REPO = 'rezahanif/AICONNECT-RELEASE'
 /** Live GitHub Releases API — the actual source of truth for version/downloadUrl,
  * so a published release's real asset filename is always what ships to users. */
 export class GitHubReleaseProvider implements ReleaseProvider {
-  constructor(private repo: string = GITHUB_RELEASE_REPO) {}
+  private repo: string
+
+  constructor(repo: string = GITHUB_RELEASE_REPO) {
+    this.repo = repo
+  }
 
   async getReleases(): Promise<ReleaseInfo[]> {
     const res = await fetch(`https://api.github.com/repos/${this.repo}/releases/latest`, {

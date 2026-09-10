@@ -50,7 +50,7 @@ export const footerCols: { title: string; links: { label: string; href: string }
   {
     title: 'Product',
     links: [
-      { label: 'Download', href: '#download' },
+      { label: 'Download', href: '#get-download' },
       { label: 'Connectors', href: '#connectors' },
       { label: 'Skills', href: '#skills' },
       { label: 'Guides', href: '#guides' },
