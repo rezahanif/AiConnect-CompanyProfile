@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import {
+  GitHubReleaseProvider,
   StaticReleaseProvider,
   archLabel,
   detectArchitecture,
@@ -49,21 +50,24 @@ test('detectArchitecture: arm64 / x64 / unknown', () => {
   assert.equal(detectArchitecture('Mozilla/5.0 (X11; FreeBSD)'), undefined)
 })
 
-test('StaticReleaseProvider: metadata without download URLs', async () => {
+test('StaticReleaseProvider: windows has a download URL', async () => {
   const releases = await new StaticReleaseProvider().getReleases()
-  assert.equal(releases.length, 3)
-  assert.ok(releases.every((r) => r.downloadUrl === undefined))
-  assert.equal(latestVersion(releases), '0.1.0')
+  assert.equal(releases.length, 1)
+  const windows = releases.find((r) => r.platform === 'windows')
+  assert.equal(
+    windows?.downloadUrl,
+    'https://github.com/rezahanif/AICONNECT-RELEASE/releases/latest/download/AI.CONNECT_1.0.0_x64-setup.exe',
+  )
+  assert.equal(latestVersion(releases), '1.0.0')
   assert.deepEqual(
-    releases.map((r) => r.platform).sort(),
-    ['linux', 'macos', 'windows'],
+    releases.map((r) => r.platform),
+    ['windows'],
   )
 })
 
 test('StaticReleaseProvider: recommended per platform', async () => {
   const p = new StaticReleaseProvider()
-  assert.equal((await p.getRecommendedRelease('macos'))?.platform, 'macos')
-  assert.equal((await p.getRecommendedRelease('linux'))?.platform, 'linux')
+  assert.equal((await p.getRecommendedRelease('windows'))?.platform, 'windows')
   assert.equal(await p.getRecommendedRelease(null), null)
 })
 
@@ -74,6 +78,69 @@ test('releaseForPlatform + isAvailable', () => {
   assert.equal(isAvailable(undefined), false)
   assert.equal(isAvailable(releaseForPlatform([r], 'windows')), false)
   assert.equal(releaseForPlatform([], 'macos'), undefined)
+})
+
+test('GitHubReleaseProvider: parses latest release into a windows ReleaseInfo', async (t) => {
+  const originalFetch = globalThis.fetch
+  t.after(() => {
+    globalThis.fetch = originalFetch
+  })
+  globalThis.fetch = (async (url: string) => {
+    assert.equal(url, 'https://api.github.com/repos/rezahanif/AICONNECT-RELEASE/releases/latest')
+    return {
+      ok: true,
+      json: async () => ({
+        tag_name: 'v1.0.0',
+        published_at: '2026-09-08T05:37:40Z',
+        assets: [
+          {
+            name: 'AI.CONNECT_1.0.0_x64-setup.exe',
+            browser_download_url:
+              'https://github.com/rezahanif/AICONNECT-RELEASE/releases/download/v1.0.0/AI.CONNECT_1.0.0_x64-setup.exe',
+            size: 6073714,
+            digest: 'sha256:7fda654bc633ec45809e6e323ccb637e0b0c7ecab4311e0d9bea9eec7d20b317',
+          },
+        ],
+      }),
+    }
+  }) as unknown as typeof fetch
+
+  const provider = new GitHubReleaseProvider()
+  const releases = await provider.getReleases()
+  assert.equal(releases.length, 1)
+  assert.deepEqual(releases[0], {
+    version: '1.0.0',
+    releaseDate: '2026-09-08',
+    platform: 'windows',
+    architecture: 'x64',
+    downloadUrl:
+      'https://github.com/rezahanif/AICONNECT-RELEASE/releases/download/v1.0.0/AI.CONNECT_1.0.0_x64-setup.exe',
+    sizeBytes: 6073714,
+    checksum: 'sha256:7fda654bc633ec45809e6e323ccb637e0b0c7ecab4311e0d9bea9eec7d20b317',
+  })
+})
+
+test('GitHubReleaseProvider: rejects when the release has no .exe asset', async (t) => {
+  const originalFetch = globalThis.fetch
+  t.after(() => {
+    globalThis.fetch = originalFetch
+  })
+  globalThis.fetch = (async () => ({
+    ok: true,
+    json: async () => ({ tag_name: 'v1.0.0', assets: [] }),
+  })) as unknown as typeof fetch
+
+  await assert.rejects(() => new GitHubReleaseProvider().getReleases(), /no Windows \.exe asset/i)
+})
+
+test('GitHubReleaseProvider: rejects on a non-OK response', async (t) => {
+  const originalFetch = globalThis.fetch
+  t.after(() => {
+    globalThis.fetch = originalFetch
+  })
+  globalThis.fetch = (async () => ({ ok: false, status: 404 })) as unknown as typeof fetch
+
+  await assert.rejects(() => new GitHubReleaseProvider().getReleases(), /404/)
 })
 
 test('provider failure surfaces as rejection (error path)', async () => {
